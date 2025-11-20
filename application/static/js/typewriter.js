@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 
                 // Add the message box to the chat container (before the CTA buttons)
-                const ctaContainer = document.querySelector('.text-center.mt-8');
+                const ctaContainer = document.querySelector('.text-center.mt-4.md\\:mt-8');
                 if (ctaContainer) {
                     chatContainer.insertBefore(messageBox, ctaContainer);
                 } else {
@@ -119,14 +119,20 @@ document.addEventListener('DOMContentLoaded', function() {
                                     ctaButtons.classList.add('animate-fade-in');
                                     console.log('Final line - showing buttons');
                                     
+                                    // Move CTA container to the very end to ensure proper positioning
+                                    const ctaContainer = ctaButtons.closest('.text-center');
+                                    if (ctaContainer) {
+                                        chatContainer.appendChild(ctaContainer);
+                                    }
+                                    
                                     // Scroll to ensure buttons are visible with padding
                                     setTimeout(() => {
                                         chatContainer.scrollTo({
                                             top: chatContainer.scrollHeight,
                                             behavior: 'smooth'
                                         });
-                                    }, 200);
-                                }, 1000);
+                                    }, 300);
+                                }, 1500); // Longer delay to ensure all content is rendered
                             }
                         } else {
                             // Move to next line after a pause
