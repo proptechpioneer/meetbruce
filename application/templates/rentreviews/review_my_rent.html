@@ -1,0 +1,575 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Bruce | Review My Rent{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-900">Review My Rent</h1>
+            <p class="text-gray-600 mt-2">The rent review process consists of <strong>three specific steps</strong>. <br>Bruce will guide you through each step to help you achieve the <strong>best possible outcome.</strong> </p>
+        </div>
+        
+        <!-- Next Possible Rent Review Information -->
+        <div class="mb-8">
+            <div class="max-w-2xl mx-auto p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div class="flex items-start">
+                    <div class="shrink-0">
+                        <svg class="h-5 w-5 text-blue-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-3 text-center flex-1">
+                        <h2 class="text-xl font-bold text-blue-900 mb-2">Next Possible Rent Review</h2>
+                        <p class="text-blue-700">The earliest date your landlord can increase the rent is: <span id="nextReviewDate" class="font-semibold text-blue-800">TBC</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Steps -->
+        <div class="space-y-6">
+            
+            <!-- Step 1: Confirm Rental Information -->
+            <div class="bg-white rounded-lg shadow-lg">
+                <div class="border-b border-gray-200">
+                    <button type="button" onclick="toggleAccordion('step1Accordion')" 
+                            class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 focus:outline-none focus:bg-gray-50">
+                        <div class="flex items-center space-x-4">
+                            
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-900">Step 1: Confirm your Rental Information</h2>
+                                <p class="text-gray-600">First, Bruce needs to gather the most accurate information about your rental situation. This will help him provide the best advice possible. Please update and confirm your rental details below so Bruce’s AI model can accurately understand your situation. Accurate information is essential to protect your rights and ensure that the rent review process is based on valid facts.</p>
+                            </div>
+                        </div>
+                        <svg id="step1AccordionIcon" class="w-6 h-6 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div id="step1Accordion" class="hidden px-6 py-6">
+                    <form id="rentalInfoForm" class="space-y-6">
+                        
+                        <!-- Property Address -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Property Address</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">House/Flat Number</label>
+                                    <input type="text" 
+                                           name="house_flat_number"
+                                           value="{% if user.house_flat_number %}{{ user.house_flat_number }}{% endif %}"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           placeholder="e.g., 12A">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Street Number</label>
+                                    <input type="text" 
+                                           name="street_number"
+                                           value="{% if user.street_number %}{{ user.street_number }}{% endif %}"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           placeholder="e.g., 123">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Street Name</label>
+                                    <input type="text" 
+                                           name="street_name"
+                                           value="{% if user.street_name %}{{ user.street_name }}{% endif %}"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           placeholder="e.g., Main Street">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Town</label>
+                                    <input type="text" 
+                                           name="town"
+                                           value="{% if user.town %}{{ user.town }}{% endif %}"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           placeholder="e.g., London">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Postcode</label>
+                                    <input type="text" 
+                                           name="post_code"
+                                           value="{% if user.post_code %}{{ user.post_code }}{% endif %}"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           placeholder="e.g., SW1A 1AA">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Property Details -->
+                        <div class="border-t pt-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Property Details</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Property Type</label>
+                                    <select name="property_type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select property type</option>
+                                        <option value="flat" {% if user.property_type == 'flat' or user.property_type == 'Flat/apartment' %}selected{% endif %}>Flat/Apartment</option>
+                                        <option value="house" {% if user.property_type == 'house' or user.property_type == 'House' %}selected{% endif %}>House</option>
+                                        <option value="studio" {% if user.property_type == 'studio' or user.property_type == 'Studio' %}selected{% endif %}>Studio</option>
+                                        <option value="room" {% if user.property_type == 'room' or user.property_type == 'Room in shared house' %}selected{% endif %}>Room in shared house</option>
+                                        <option value="maisonette" {% if user.property_type == 'maisonette' or user.property_type == 'Maisonette' %}selected{% endif %}>Maisonette</option>
+                                        <option value="bungalow" {% if user.property_type == 'bungalow' or user.property_type == 'Bungalow' %}selected{% endif %}>Bungalow</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Number of Bedrooms</label>
+                                    <select name="bedrooms" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select bedrooms</option>
+                                        <option value="0" {% if user.bedrooms == 0 %}selected{% endif %}>0 (Studio)</option>
+                                        <option value="1" {% if user.bedrooms == 1 %}selected{% endif %}>1</option>
+                                        <option value="2" {% if user.bedrooms == 2 %}selected{% endif %}>2</option>
+                                        <option value="3" {% if user.bedrooms == 3 %}selected{% endif %}>3</option>
+                                        <option value="4" {% if user.bedrooms == 4 %}selected{% endif %}>4</option>
+                                        <option value="5" {% if user.bedrooms >= 5 %}selected{% endif %}>5+</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Number of Bathrooms</label>
+                                    <select name="bathrooms" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select bathrooms</option>
+                                        <option value="1" {% if user.bathrooms == 1 %}selected{% endif %}>1</option>
+                                        <option value="2" {% if user.bathrooms == 2 %}selected{% endif %}>2</option>
+                                        <option value="3" {% if user.bathrooms == 3 %}selected{% endif %}>3</option>
+                                        <option value="4" {% if user.bathrooms >= 4 %}selected{% endif %}>4+</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Has Separate Lounge</label>
+                                    <select name="has_lounge" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select option</option>
+                                        <option value="true" {% if user.has_lounge %}selected{% endif %}>Yes</option>
+                                        <option value="false" {% if not user.has_lounge %}selected{% endif %}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Property Features & Condition -->
+                        <div class="border-t pt-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Property Features & Condition</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Parking Type</label>
+                                    <select name="parking_type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select parking type</option>
+                                        <option value="No parking" {% if user.parking_type == 'No parking' %}selected{% endif %}>No Parking</option>
+                                        <option value="Parking permit" {% if user.parking_type == 'Parking permit' %}selected{% endif %}>Street Parking/Permit</option>
+                                        <option value="Undercover assigned car park" {% if user.parking_type == 'Undercover assigned car park' %}selected{% endif %}>Assigned Parking Space</option>
+                                        <option value="Undercover un-assigned car park" {% if user.parking_type == 'Undercover un-assigned car park' %}selected{% endif %}>Shared Parking</option>
+                                        <option value="Driveway" {% if user.parking_type == 'Driveway' %}selected{% endif %}>Driveway</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Property Condition (1-10 scale)</label>
+                                    <select name="property_condition" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select condition</option>
+                                        <option value="10" {% if user.property_condition == 10 %}selected{% endif %}>10 - Excellent</option>
+                                        <option value="9" {% if user.property_condition == 9 %}selected{% endif %}>9 - Very Good</option>
+                                        <option value="8" {% if user.property_condition == 8 %}selected{% endif %}>8 - Good</option>
+                                        <option value="7" {% if user.property_condition == 7 %}selected{% endif %}>7 - Above Average</option>
+                                        <option value="6" {% if user.property_condition == 6 %}selected{% endif %}>6 - Average</option>
+                                        <option value="5" {% if user.property_condition == 5 %}selected{% endif %}>5 - Below Average</option>
+                                        <option value="4" {% if user.property_condition == 4 %}selected{% endif %}>4 - Fair</option>
+                                        <option value="3" {% if user.property_condition == 3 %}selected{% endif %}>3 - Poor</option>
+                                        <option value="2" {% if user.property_condition == 2 %}selected{% endif %}>2 - Very Poor</option>
+                                        <option value="1" {% if user.property_condition == 1 %}selected{% endif %}>1 - Needs Major Work</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Additional Property Features</label>
+                                <textarea rows="3" 
+                                          name="property_features"
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                          placeholder="e.g., garden, balcony, dishwasher, washing machine, etc.">{% if user.property_features %}{{ user.property_features }}{% endif %}</textarea>
+                            </div>
+                        </div>
+
+                        <!-- Rental Information -->
+                        <div class="border-t pt-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Rental Information</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Current Weekly Rent (£)</label>
+                                    <input type="number" 
+                                           name="weekly_rent"
+                                           step="0.01"
+                                           value="{% if user.weekly_rent %}{{ user.weekly_rent }}{% endif %}"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           placeholder="350.00">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Rental Duration</label>
+                                    <select name="rental_duration" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select duration</option>
+                                        <option value="Less than 6 months" {% if user.rental_duration == 'Less than 6 months' %}selected{% endif %}>Less than 6 months</option>
+                                        <option value="6-12 months" {% if user.rental_duration == '6-12 months' %}selected{% endif %}>6 months to 1 year</option>
+                                        <option value="1-2 years" {% if user.rental_duration == '1-2 years' %}selected{% endif %}>1 to 2 years</option>
+                                        <option value="2-3 years" {% if user.rental_duration == '2-3 years' %}selected{% endif %}>2 to 3 years</option>
+                                        <option value="3-5 years" {% if user.rental_duration == '3-5 years' %}selected{% endif %}>3 to 5 years</option>
+                                        <option value="More than 5 years" {% if user.rental_duration == 'More than 5 years' %}selected{% endif %}>More than 5 years</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Landlord Contact Method</label>
+                                    <select name="landlord_contact" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select method</option>
+                                        <option value="Landlord" {% if user.landlord_contact == 'Landlord' %}selected{% endif %}>Direct Contact with Landlord</option>
+                                        <option value="Property manager" {% if user.landlord_contact == 'Property manager' %}selected{% endif %}>Through Property Manager</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Utilities Included in Rent</label>
+                                <input type="text" 
+                                       name="included_utilities"
+                                       value="{% if user.included_utilities %}{{ user.included_utilities }}{% endif %}"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                       placeholder="e.g., water, electricity, gas, internet, council tax">
+                            </div>
+                        </div>
+
+                        <!-- Current Issues -->
+                        <div class="border-t pt-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Current Property Issues</h3>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Any ongoing issues with the property?</label>
+                                <textarea rows="4" 
+                                          name="current_issues"
+                                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                          placeholder="Describe any maintenance issues, repairs needed, or other concerns...">{% if user.current_issues %}{{ user.current_issues }}{% endif %}</textarea>
+                            </div>
+                        </div>
+
+                        <!-- Rent History -->
+                        <div class="border-t pt-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Rent Increase History</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Last Rent Increase Date</label>
+                                    <input type="date" 
+                                           name="last_rent_increase_date"
+                                           id="lastRentIncreaseDate"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           onchange="calculateNextReviewDate()">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Previous Rent Amount (£)</label>
+                                    <input type="number" 
+                                           name="previous_rent_amount"
+                                           step="0.01"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           placeholder="1400.00">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Increase Amount (£)</label>
+                                    <input type="number" 
+                                           name="increase_amount"
+                                           step="0.01"
+                                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           placeholder="100.00">
+                                </div>
+                            </div>
+                            
+                            <!-- Next Rent Review Information -->
+                            <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                                <div class="flex items-start">
+                                    <div class="shrink-0">
+                                        <svg class="h-5 w-5 text-blue-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h4 class="text-sm font-medium text-blue-800">Next Rent Review Date</h4>
+                                        <p class="mt-1 text-sm text-blue-700">
+                                            <strong>Your landlord's earliest possible next Rent Review is on: </strong>
+                                            <span id="nextReviewDate" class="font-semibold">TBC</span>
+                                        </p>
+                                        <p class="mt-2 text-xs text-blue-600">
+                                            * Your landlord cannot increase rent more than once per year. Enter your last rent increase date above to calculate the earliest possible next review.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Document Uploads -->
+                        <div class="border-t pt-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Supporting Documents</h3>
+                            <div class="space-y-4">
+                                
+                                <!-- Tenancy Agreement Upload -->
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-blue-400 transition-colors">
+                                    <div class="text-center">
+                                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                        <h4 class="text-sm font-medium text-gray-900 mt-2">Upload Tenancy Agreement</h4>
+                                        <p class="text-xs text-gray-500 mt-1">PDF, DOC, or image files up to 10MB</p>
+                                        <input type="file" 
+                                               accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                                               class="mt-3 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                    </div>
+                                </div>
+
+                                <!-- Property Images Upload -->
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-blue-400 transition-colors">
+                                    <div class="text-center">
+                                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <h4 class="text-sm font-medium text-gray-900 mt-2">Upload Property Images</h4>
+                                        <p class="text-xs text-gray-500 mt-1">Photos of rooms, property condition, etc. (Optional but helpful)</p>
+                                        <input type="file" 
+                                               multiple
+                                               accept=".jpg,.jpeg,.png,.heic"
+                                               class="mt-3 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Save Button -->
+                        <div class="border-t text-center" style="padding-top: 3rem; padding-bottom: 2rem;">
+                            <button type="button"
+                                    class="font-semibold px-6 py-3 rounded-full text-sm transition duration-300 ease-in-out transform hover:scale-105 shadow-sm"
+                                    style="font-family: 'Anek Latin', Arial, sans-serif !important; background-color: #2563eb; color: white !important;"
+                                    onmouseover="this.style.backgroundColor='#1d4ed8'; this.style.color='white'"
+                                    onmouseout="this.style.backgroundColor='#2563eb'; this.style.color='white'">
+                                Confirm & Save Information
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!-- Button to open rental information -->
+                <div class="px-6 py-4 text-center bg-gray-50 border-t border-gray-200">
+                    <button type="button" 
+                            id="step1Button"
+                            data-step="1"
+                            onclick="toggleAccordion('step1Accordion')"
+                            class="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 transition duration-300 shadow-lg">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                        Confirm Rental Information
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Market Analysis -->
+            <div class="bg-white rounded-lg shadow-lg">
+                <div class="px-6 py-4">
+                    <div class="flex items-center space-x-4">   
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-900">Step 2: Monitor the Market</h2>
+                            <p class="text-gray-600">The second step is to stay updated on local market trends that could affect your rent. Bruce will do an analysis of the rental market in your area, comparing your situation to other rentals.<br><br>This will give you an idea of what similar properties in your area are renting for and help you decide if a rent increase is fair.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 pb-6" style="padding-bottom: 2rem;">
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div class="flex">
+                            <div class="shrink-0">
+                                <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-blue-800">Market Analysis Benefits</h3>
+                                <div class="mt-2 text-sm text-blue-700">
+                                    <ul class="list-disc pl-5 space-y-1">
+                                        <li>Compare your rent with similar properties in your area</li>
+                                        <li>Get data-driven insights from Rightmove and OpenRent listings</li>
+                                        <li>Understand your market position and rental value</li>
+                                        <li>Build a strong case for rent review negotiations</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="button" 
+                                id="step2Button"
+                                data-step="2"
+                                onclick="handleStep2Click()"
+                                class="inline-flex items-center px-6 py-3 text-base font-medium text-gray-400 bg-gray-300 border border-transparent rounded-md cursor-not-allowed transition duration-300 shadow-lg"
+                                disabled>
+                            <svg class="mr-2 -ml-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            Start Market Analysis
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Rent Review Strategy (Preview) -->
+            <div class="bg-white rounded-lg shadow-lg">
+                <div class="px-6 py-4">
+                    <div class="mb-4">
+                        <h2 class="text-xl font-bold text-gray-700">Step 3: Rent Review Notice | Coming Soon - I'm in training!</h2>
+                        <p class="text-gray-600 mt-2">Once you get a Section 13 Notice from your landlord or property manager Bruce will be ready to act. Bruce will guide you through the rent review process.</p>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                        <div class="flex">
+                            <div class="shrink-0">
+                                <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-blue-800">Bruce will help you determine the following:</h3>
+                                <div class="mt-2 text-sm text-blue-700">
+                                    <div class="space-y-1">
+                                        <div>1. Is the proposed rent increase fair?</div>
+                                        <div>2. Should you dispute the rent increase?</div>
+                                        <div>3. If so Bruce will set out a response for your landlord explaining why the increase does not reflect a fair market rent.</div>
+                                        <div>4. Bruce can guide you through either:
+                                            <div class="ml-6 mt-1 space-y-1">
+                                                <div>a. negotiating a decrease; or</div>
+                                                <div>b. disputing the rent at a rental tribunal</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-gray-600">
+                        <p>The good news is even if you do decide to go through the tribunal process, as a tenant you do not have to pay the tribunal to attend. The onus will be on the landlord to prove their rent is fair and even if the rent does increase it will only be from the point the tribunal decides the rent level, the landlord cannot backdate the rent increase.</p>
+                    </div>
+                    <!-- Button to contest rent increase -->
+                    <div class="mt-6 pt-4 border-t border-gray-300 text-center">
+                        <button type="button" 
+                                id="step3Button"
+                                data-step="3"
+                                onclick="handleStep3Click()"
+                                class="inline-flex items-center px-6 py-3 text-base font-medium text-gray-400 bg-gray-300 border border-transparent rounded-md cursor-not-allowed transition duration-300 shadow-lg"
+                                disabled>
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                            </svg>
+                            Contest a Rent Increase
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Back Button -->
+        <div class="mt-8 text-center">
+            <a href="{% url 'rentreviews:review_list' %}" 
+               class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition duration-300">
+                <svg class="mr-2 -ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Rent Reviews
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleAccordion(accordionId) {
+    const accordion = document.getElementById(accordionId);
+    const icon = document.getElementById(accordionId + 'Icon');
+    
+    if (accordion.classList.contains('hidden')) {
+        accordion.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+    } else {
+        accordion.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+    }
+}
+
+function calculateNextReviewDate() {
+    const lastIncreaseDateInput = document.getElementById('lastRentIncreaseDate');
+    const nextReviewDateSpan = document.getElementById('nextReviewDate');
+    
+    if (lastIncreaseDateInput.value) {
+        // Parse the last increase date
+        const lastIncreaseDate = new Date(lastIncreaseDateInput.value);
+        
+        // Add one year to get the next possible review date
+        const nextReviewDate = new Date(lastIncreaseDate);
+        nextReviewDate.setFullYear(nextReviewDate.getFullYear() + 1);
+        
+        // Format the date for display
+        const options = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        };
+        const formattedDate = nextReviewDate.toLocaleDateString('en-GB', options);
+        
+        // Update the display
+        nextReviewDateSpan.textContent = formattedDate;
+        nextReviewDateSpan.classList.add('text-blue-800');
+    } else {
+        // Reset to TBC if no date is entered
+        nextReviewDateSpan.textContent = 'TBC';
+        nextReviewDateSpan.classList.remove('text-blue-800');
+    }
+}
+
+function enableStep(stepNumber) {
+    const button = document.getElementById(`step${stepNumber}Button`);
+    if (button) {
+        // Enable the button
+        button.disabled = false;
+        button.classList.remove('text-gray-400', 'bg-gray-300', 'cursor-not-allowed');
+        button.classList.add('text-white', 'bg-green-600', 'hover:bg-green-700');
+        
+        // Update cursor style
+        button.style.cursor = 'pointer';
+    }
+}
+
+function handleStep2Click() {
+    const button = document.getElementById('step2Button');
+    if (!button.disabled) {
+        window.location.href = "{% url 'market_analysis:analysis' %}";
+    }
+}
+
+function handleStep3Click() {
+    const button = document.getElementById('step3Button');
+    if (!button.disabled) {
+        // Add your Step 3 functionality here
+        console.log('Contest a Rent Increase clicked');
+    }
+}
+
+// Simulate step completion for demonstration
+// In a real implementation, these would be triggered by actual form submission/completion
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if user has rental information (you can customize this logic)
+    const saveButton = document.querySelector('[data-step="1"]');
+    if (saveButton) {
+        // Add click listener to the save button to enable step 2
+        const confirmButton = document.querySelector('button:contains("Confirm & Save Information")');
+        if (confirmButton) {
+            confirmButton.addEventListener('click', function() {
+                enableStep(2);
+                localStorage.setItem('step1Completed', 'true');
+            });
+        }
+    }
+    
+    // Check localStorage for completed steps
+    if (localStorage.getItem('step1Completed') === 'true') {
+        enableStep(2);
+    }
+    if (localStorage.getItem('step2Completed') === 'true') {
+        enableStep(3);
+    }
+});
+</script>
+{% endblock %}

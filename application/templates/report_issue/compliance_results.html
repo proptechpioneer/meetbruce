@@ -1,0 +1,259 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Bruce | Compliance Results{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 min-h-screen">
+    <!-- Main Content -->
+    <div class="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center text-sm text-gray-500 mb-4">
+                <a href="{% url 'report_issue:dashboard' %}" class="hover:text-gray-700">Report Issue</a>
+                <i class="fas fa-chevron-right mx-2"></i>
+                <a href="{% url 'report_issue:landlord_compliance' %}" class="hover:text-gray-700">Landlord Compliance</a>
+                <i class="fas fa-chevron-right mx-2"></i>
+                <span>Results</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900">Compliance Assessment Results</h1>
+            <p class="mt-2 text-gray-600">
+                Based on your responses, here's your landlord compliance assessment and recommended next steps.
+            </p>
+        </div>
+
+        <!-- Compliance Score -->
+        <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
+            <div class="text-center">
+                <div class="mb-4">
+                    {% if compliance_data.compliance_percentage >= 80 %}
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full">
+                            <i class="fas fa-check-circle text-2xl text-green-600"></i>
+                        </div>
+                    {% elif compliance_data.compliance_percentage >= 60 %}
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 rounded-full">
+                            <i class="fas fa-exclamation-triangle text-2xl text-yellow-600"></i>
+                        </div>
+                    {% else %}
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full">
+                            <i class="fas fa-times-circle text-2xl text-red-600"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">
+                    {{ compliance_data.compliance_percentage }}% Compliance
+                </h2>
+                
+                <p class="text-gray-600 mb-4">
+                    {{ compliance_data.compliant_items }} of {{ compliance_data.total_items }} requirements met
+                </p>
+                
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-200 rounded-full h-3 mb-4">
+                    {% if compliance_data.compliance_percentage >= 80 %}
+                        <div class="bg-green-600 h-3 rounded-full" style="width: {{ compliance_data.compliance_percentage }}%"></div>
+                    {% elif compliance_data.compliance_percentage >= 60 %}
+                        <div class="bg-yellow-600 h-3 rounded-full" style="width: {{ compliance_data.compliance_percentage }}%"></div>
+                    {% else %}
+                        <div class="bg-red-600 h-3 rounded-full" style="width: {{ compliance_data.compliance_percentage }}%"></div>
+                    {% endif %}
+                </div>
+                
+                {% if compliance_data.compliance_percentage >= 80 %}
+                    <p class="text-green-700 font-medium">Great! Your landlord appears to be meeting most legal requirements.</p>
+                {% elif compliance_data.compliance_percentage >= 60 %}
+                    <p class="text-yellow-700 font-medium">Your landlord is meeting some requirements but there are areas for improvement.</p>
+                {% else %}
+                    <p class="text-red-700 font-medium">There are significant compliance issues that need to be addressed.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if non_compliant_items %}
+            <!-- Non-Compliant Issues -->
+            <div class="bg-white shadow-lg rounded-lg mb-8">
+                <div class="px-6 py-4 bg-red-50 border-b border-red-200">
+                    <h3 class="text-lg font-semibold text-red-900">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        Issues Requiring Attention ({{ non_compliant_items|length }})
+                    </h3>
+                </div>
+                <div class="px-6 py-4">
+                    <div class="space-y-4">
+                        {% for item in non_compliant_items %}
+                            <div class="border-l-4 border-red-500 pl-4 py-2">
+                                <h4 class="font-medium text-gray-900">{{ item.text }}</h4>
+                                <p class="text-sm text-gray-600 mt-1">{{ item.description }}</p>
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 mt-2">
+                                    {{ item.category }}
+                                </span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="bg-white shadow-lg rounded-lg mb-8">
+                <div class="px-6 py-4 bg-blue-50 border-b border-blue-200">
+                    <h3 class="text-lg font-semibold text-blue-900">
+                        <i class="fas fa-lightbulb mr-2"></i>
+                        Recommended Next Steps
+                    </h3>
+                </div>
+                <div class="px-6 py-4">
+                    <ul class="space-y-3">
+                        {% for recommendation in recommendations %}
+                            <li class="flex items-start space-x-3">
+                                <div class="shrink-0">
+                                    {% if 'PRIORITY' in recommendation %}
+                                        <i class="fas fa-exclamation-circle text-red-500 mt-1"></i>
+                                    {% else %}
+                                        <i class="fas fa-arrow-right text-blue-500 mt-1"></i>
+                                    {% endif %}
+                                </div>
+                                <span class="text-gray-700 {% if 'PRIORITY' in recommendation %}font-semibold text-red-700{% endif %}">
+                                    {{ recommendation }}
+                                </span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% else %}
+            <!-- All Compliant -->
+            <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-8">
+                <div class="flex">
+                    <div class="shrink-0">
+                        <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-lg font-medium text-green-900">Excellent Compliance!</h3>
+                        <p class="text-green-700 mt-2">
+                            Your landlord appears to be meeting all the key legal requirements. Continue to monitor 
+                            compliance and document any changes in property conditions or landlord behavior.
+                        </p>
+                    </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if compliance_data.issues_created %}
+        <!-- Issues Created Section -->
+        <div class="bg-white shadow-lg rounded-lg mb-8">
+            <div class="px-6 py-4 bg-orange-50 border-b border-orange-200">
+                <h3 class="text-lg font-semibold text-orange-900">
+                    <i class="fas fa-plus-circle mr-2"></i>
+                    Issues Automatically Created ({{ compliance_data.issues_created|length }})
+                </h3>
+            </div>
+            <div class="px-6 py-4">
+                <p class="text-gray-600 mb-4">
+                    The following issues have been automatically created for non-compliant items. You can review and edit them in your issues list.
+                </p>
+                <div class="space-y-3">
+                    {% for created_issue in compliance_data.issues_created %}
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-900">{{ created_issue.title }}</h4>
+                                <span class="text-sm text-gray-600">{{ created_issue.category }}</span>
+                            </div>
+                            <a href="{% url 'report_issue:issue_detail' created_issue.issue_id %}" 
+                               class="inline-flex items-center px-3 py-1 border border-blue-300 rounded-md text-sm font-medium text-blue-700 hover:bg-blue-50">
+                                <i class="fas fa-eye mr-1"></i>
+                                View Issue
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}        <!-- Detailed Results by Category -->
+        <div class="bg-white shadow-lg rounded-lg mb-8">
+            <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">
+                    <i class="fas fa-list-check mr-2"></i>
+                    Detailed Results by Category
+                </h3>
+            </div>
+            <div class="px-6 py-4">
+                <div class="space-y-6">
+                    {% for category, items in compliance_data.results.items %}
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-900 mb-3">{{ category }}</h4>
+                            <div class="grid grid-cols-1 gap-3">
+                                {% for item in items %}
+                                    <div class="flex items-start space-x-3">
+                                        {% if item.compliant %}
+                                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                            <span class="text-gray-700">{{ item.text }}</span>
+                                        {% else %}
+                                            <i class="fas fa-times-circle text-red-500 mt-1"></i>
+                                            <span class="text-gray-700 line-through">{{ item.text }}</span>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">What's Next?</h3>
+            <div class="flex flex-wrap gap-4">
+                {% if non_compliant_items %}
+                    <a href="{% url 'report_issue:create_issue' %}" 
+                       class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-300">
+                        <i class="fas fa-plus mr-2"></i>
+                        Report an Issue
+                    </a>
+                    <a href="{% url 'report_issue:contact_details' %}" 
+                       class="inline-flex items-center px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition duration-300">
+                        <i class="fas fa-address-book mr-2"></i>
+                        Update Contact Details
+                    </a>
+                {% endif %}
+                
+                <a href="{% url 'report_issue:landlord_compliance' %}" 
+                   class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition duration-300">
+                    <i class="fas fa-redo mr-2"></i>
+                    Retake Assessment
+                </a>
+                
+                <a href="{% url 'report_issue:dashboard' %}" 
+                   class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition duration-300">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Back to Dashboard
+                </a>
+                
+                <button onclick="window.print()" 
+                        class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition duration-300">
+                    <i class="fas fa-print mr-2"></i>
+                    Print Results
+                </button>
+            </div>
+        </div>
+
+        <!-- Assessment Info -->
+        <div class="mt-8 text-center text-gray-500 text-sm">
+            <p>Assessment completed on {{ compliance_data.completed_date|date:"F d, Y \a\\t g:i A" }}</p>
+            <p class="mt-2">
+                <strong>Disclaimer:</strong> This assessment is for informational purposes only and does not constitute legal advice. 
+                Consult with local tenant rights organizations or legal professionals for specific guidance.
+            </p>
+        </div>
+    </div>
+
+    <style>
+        @media print {
+            nav, .no-print { display: none !important; }
+            body { background: white !important; }
+            .shadow-lg { box-shadow: none !important; border: 1px solid #e5e7eb !important; }
+        }
+    </style>
+</div>
+{% endblock %}

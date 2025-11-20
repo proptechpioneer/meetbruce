@@ -1,0 +1,191 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Dashboard - Bruce{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8 flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Welcome {% if user.name %} {{ user.name }}{% elif user.username %} {{ user.username }}{% endif %}</h1>
+                <p class="text-gray-600 mt-2">Manage your tenancy at: <strong>{% if user.house_flat_number %}{{ user.house_flat_number }}, {% endif %}{{ user.street_number }} {{ user.street_name }}, {{ user.town }}</strong> and get insights from Bruce</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="text-sm text-gray-600">Logged in as: {{ user.username|default:user.email }}</span>
+                <a href="{% url 'logout' %}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    Logout
+                </a>
+            </div>
+        </div>
+
+        {% if has_data %}
+        <!-- Quick Stats -->
+        <div class="flex gap-4 mb-8">
+            <!-- Property Type -->
+            <div class="bg-white rounded-lg shadow p-4 flex-1">
+                <div class="flex items-center">
+                    <div class="p-2 bg-blue-100 rounded-lg">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Property Type</p>
+                        <p class="text-lg font-semibold text-gray-900">{{ user.property_type|default:"N/A" }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weekly Rent -->
+            <div class="bg-white rounded-lg shadow p-4 flex-1">
+                <div class="flex items-center">
+                    <div class="p-2 bg-green-100 rounded-lg">
+                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Weekly Rent</p>
+                        <p class="text-lg font-semibold text-gray-900">{{ user.weekly_rent|default:"N/A" }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bedrooms -->
+            <div class="bg-white rounded-lg shadow p-4 flex-1">
+                <div class="flex items-center">
+                    <div class="p-2 bg-purple-100 rounded-lg">
+                        <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m4 0H3a1 1 0 00-1 1v4a1 1 0 001 1h1v10a1 1 0 001 1h14a1 1 0 001-1V10h1a1 1 0 001-1V5a1 1 0 00-1-1z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Bedrooms</p>
+                        <p class="text-lg font-semibold text-gray-900">{{ user.bedrooms|default:"N/A" }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bathrooms -->
+            <div class="bg-white rounded-lg shadow p-4 flex-1">
+                <div class="flex items-center">
+                    <div class="p-2 bg-indigo-100 rounded-lg">
+                        <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Bathrooms</p>
+                        <p class="text-lg font-semibold text-gray-900">{{ user.bathrooms|default:"N/A" }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Property Condition -->
+            <div class="bg-white rounded-lg shadow p-4 flex-1">
+                <div class="flex items-center">
+                    <div class="p-2 bg-yellow-100 rounded-lg">
+                        <svg class="w-5 h-5 text-yellow-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Property Condition</p>
+                        <p class="text-lg font-semibold text-gray-900">{% if user.property_condition %}{{ user.property_condition }}/10{% else %}N/A{% endif %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Possible Rent Review Information -->
+        <div class="mb-8">
+            <div class="max-w-2xl mx-auto p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div class="text-center">
+                    <h2 class="text-xl font-bold text-blue-900 mb-2">Next Possible Rent Review</h2>
+                    <p class="text-blue-700">The earliest date your landlord can increase the rent is: <span id="nextReviewDate" class="font-semibold text-blue-800">TBC</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Actions -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Rental Insights -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="p-2 bg-purple-100 rounded-lg mr-3">
+                            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 00-2 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900">Rental Insights</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Get market insights, rent comparisons, and review your rent.</p>
+                    <a href="{% url 'rentreviews:review_list' %}" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        View Insights
+                    </a>
+                </div>
+            </div>
+        
+            
+            <!-- Report an Issue -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="p-2 bg-red-100 rounded-lg mr-3" style="background-color: #fef2f2 !important;">
+                            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #dc2626 !important;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900">Report an Issue</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Document property problems, communicate with landlords, and track issue resolution.</p>
+                    <a href="/issues/" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" style="background-color: #dc2626 !important;">
+                        Report Issue
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Chat with Bruce -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="p-2 bg-blue-100 rounded-lg mr-3">
+                            <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900">Chat with Bruce</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Get instant advice and support for your rental property questions.</p>
+                    <a href="{% url 'dashboard:chat_with_bruce' %}" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Start Conversation
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <!-- No Data State -->
+        <div class="text-center py-12">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No property information</h3>
+            <p class="mt-1 text-sm text-gray-500">Get started by completing your onboarding process.</p>
+            <div class="mt-6">
+                <a href="{% url 'onboarding' %}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Complete Onboarding
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

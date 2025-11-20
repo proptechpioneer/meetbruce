@@ -1,0 +1,724 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Welcome to Bruce | Onboarding{% endblock %}
+
+{% block content %}
+    <div class="px-4 py-4 min-h-screen flex items-center justify-center">
+        <div class="w-full max-w-4xl">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col" style="max-height: 90vh;">
+                <!-- Header -->
+                <div class="bg-linear-to-r from-blue-600 to-blue-800 text-white p-8 shrink-0">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="text-3xl font-bold">Welcome to Bruce</h1>
+                            <p class="text-blue-100 mt-2">Let's get your free account set up in just a few steps</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Interface -->
+                <div class="p-6 flex-1 flex flex-col" style="min-height: 60vh; max-height: 70vh;">
+                    <div class="space-y-4 flex-1 overflow-y-auto" id="chat-container">
+                        <!-- Initial message will be added here -->
+                    </div>
+
+                    <!-- Input Area (initially hidden) -->
+                    <div class="mt-4 hidden shrink-0" id="input-area">
+                        <form id="onboarding-form" class="space-y-4">
+                            {% csrf_token %}
+                            <div class="flex space-x-3">
+                                <input 
+                                    type="text" 
+                                    id="user-input" 
+                                    name="answer"
+                                    class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+                                    placeholder="Type your answer..."
+                                    autocomplete="off"
+                                />
+                                <button 
+                                    type="submit"
+                                    class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+                                >
+                                    Send
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="bg-gray-100 px-6 py-3 shrink-0">
+                    <div class="flex items-center justify-between text-sm text-gray-500">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span>Secure & Confidential</span>
+                        </div>
+                        <div>Powered by AI • Available 24/7</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const onboardingFlow = {
+            currentStep: 0,
+            userData: {},
+            
+            questions: [
+                {
+                    id: 'welcome',
+                    message: "Let's start by getting to know each other.",
+                    type: 'info',
+                    delay: 2000
+                },
+                {
+                    id: 'name',
+                    message: "What's your name?",
+                    field: 'name',
+                    type: 'input',
+                    placeholder: "Enter your name"
+                },
+                {
+                    id: 'situation',
+                    message: "What is your current situation?",
+                    field: 'rental_situation',
+                    type: 'radio',
+                    options: [
+                        "Renting by myself",
+                        "Sharing with roommates", 
+                        "Renting with a partner"
+                    ]
+                },
+                {
+                    id: 'property_type',
+                    message: "Thanks [name], what type of property are you renting?",
+                    field: 'property_type',
+                    type: 'radio',
+                    options: [
+                        "House",
+                        "Flat/apartment",
+                        "House of Multiple Occupation (HMO)",
+                        "Student property"
+                    ]
+                },
+                {
+                    id: 'bedrooms',
+                    message: "How many bedrooms is the property?",
+                    field: 'bedrooms',
+                    type: 'select',
+                    options: [
+                        "Studio",
+                        "1 bedroom",
+                        "2 bedrooms",
+                        "3 bedrooms",
+                        "4 bedrooms",
+                        "5 bedrooms",
+                        "6+ bedrooms"
+                    ]
+                },
+                {
+                    id: 'bathrooms',
+                    message: "How many bathrooms does the home have?",
+                    field: 'bathrooms',
+                    type: 'select',
+                    options: [
+                        "1 bathroom",
+                        "1.5 bathrooms",
+                        "2 bathrooms",
+                        "2.5 bathrooms",
+                        "3 bathrooms",
+                        "3.5 bathrooms",
+                        "4+ bathrooms"
+                    ]
+                },
+                {
+                    id: 'parking',
+                    message: "Do you have car parking?",
+                    field: 'parking_type',
+                    type: 'radio',
+                    options: [
+                        "Undercover assigned car park",
+                        "Undercover un-assigned car park",
+                        "Driveway",
+                        "Parking permit",
+                        "No parking"
+                    ]
+                },
+                {
+                    id: 'features',
+                    message: "Does your property have any other features? Check those which apply:",
+                    field: 'property_features',
+                    type: 'checkbox',
+                    options: [
+                        "Garden",
+                        "Patio",
+                        "Balcony",
+                        "Gym",
+                        "Pool",
+                        "Concierge",
+                        "Tenant games room",
+                        "Cinema room",
+                        "None",
+                        "Other (specify)"
+                    ]
+                },
+                {
+                    id: 'condition',
+                    message: "How would you describe the condition of your property from 1 - 10 (10 being the best)?",
+                    field: 'property_condition',
+                    type: 'input',
+                    inputType: 'number',
+                    min: 1,
+                    max: 10,
+                    placeholder: "Enter a number from 1-10"
+                },
+                {
+                    id: 'weekly_rent',
+                    message: "How much is the weekly rent for your property?",
+                    field: 'weekly_rent',
+                    type: 'input',
+                    placeholder: "Enter weekly rent amount (e.g. £500)"
+                },
+                {
+                    id: 'utilities',
+                    message: "Does it include utilities? If so, which ones?",
+                    field: 'included_utilities',
+                    type: 'checkbox',
+                    options: [
+                        "Not included",
+                        "Gas",
+                        "Electricity",
+                        "Water",
+                        "Internet/broadband",
+                        "Other (specify)"
+                    ]
+                },
+                {
+                    id: 'landlord_contact',
+                    message: "Do you deal directly with your landlord or a property manager?",
+                    field: 'landlord_contact',
+                    type: 'radio',
+                    options: [
+                        "Landlord",
+                        "Property manager"
+                    ]
+                },
+                {
+                    id: 'rental_duration',
+                    message: "How long have you been renting this property?",
+                    field: 'rental_duration',
+                    type: 'select',
+                    options: [
+                        "Less than 6 months",
+                        "6-12 months",
+                        "1-2 years",
+                        "2-3 years",
+                        "3-5 years",
+                        "More than 5 years"
+                    ]
+                },
+                {
+                    id: 'current_issues',
+                    message: "Are there any current issues with your rental property that you'd like help with? (Optional - press Send to skip)",
+                    field: 'current_issues',
+                    type: 'input',
+                    placeholder: "Describe any issues or leave blank to skip"
+                },
+                {
+                    id: 'completion',
+                    message: "Thanks [name], this is enough information to get started. Let's set up your free account",
+                    field: 'completion',
+                    type: 'completion'
+                }
+                // ADD MORE QUESTIONS HERE - FORMAT:
+                // {
+                //     id: 'unique_id',
+                //     message: "Your question text here?",
+                //     field: 'database_field_name',
+                //     type: 'input',
+                //     placeholder: "Placeholder text"
+                // }
+            ],
+
+            init() {
+                this.startFlow();
+            },
+
+            startFlow() {
+                this.showMessage(this.questions[0]);
+            },
+
+            showMessage(question) {
+                console.log('🔍 DEBUG: Showing question:', question.id, 'Type:', question.type);
+                const chatContainer = document.getElementById('chat-container');
+                
+                // Replace [name] with actual name if it exists
+                let message = question.message;
+                if (message.includes('[name]') && this.userData.name) {
+                    message = message.replace('[name]', this.userData.name);
+                }
+                
+                // Create message bubble
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'flex items-start space-x-3';
+                
+                messageDiv.innerHTML = `
+                    <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <div class="bg-gray-100 rounded-lg px-4 py-3 max-w-md">
+                            <div class="text-gray-800 text-lg leading-relaxed font-medium" id="message-text-${question.id}"></div>
+                        </div>
+                    </div>
+                `;
+                
+                chatContainer.appendChild(messageDiv);
+                
+                // Scroll to bottom immediately to show the message bubble
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                
+                // Typewriter effect with continuous scrolling
+                this.typeWriter(message, `message-text-${question.id}`, () => {
+                    // Ensure we're scrolled to bottom after typewriter completes
+                    setTimeout(() => {
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                    }, 100);
+                    
+                    if (question.type === 'completion') {
+                        // For completion, save data and redirect to account creation
+                        console.log('🎯 DEBUG: Starting completion flow');
+                        
+                        // Show a visible message to user
+                        setTimeout(() => {
+                            console.log('🎯 DEBUG: About to save user data in 3 seconds...');
+                            
+                            // Add a visible countdown or message
+                            const chatContainer = document.getElementById('chat-container');
+                            const statusDiv = document.createElement('div');
+                            statusDiv.className = 'text-center p-4 bg-blue-50 rounded-lg mt-4';
+                            statusDiv.innerHTML = '<p class="text-blue-600 font-semibold">✅ Saving your information...</p>';
+                            chatContainer.appendChild(statusDiv);
+                            chatContainer.scrollTop = chatContainer.scrollHeight;
+                            
+                            this.saveUserData().then((result) => {
+                                console.log('🎯 DEBUG: Save completed successfully:', result);
+                                statusDiv.innerHTML = '<p class="text-green-600 font-semibold">✅ Information saved! Redirecting to account creation in 5 seconds...</p>';
+                                
+                                // Wait longer before redirect so you can see it
+                                setTimeout(() => {
+                                    console.log('🎯 DEBUG: Now redirecting to create-account');
+                                    window.location.href = '/create-account/';
+                                }, 5000);
+                            }).catch((error) => {
+                                console.error('❌ Failed to save data:', error);
+                                statusDiv.innerHTML = '<p class="text-red-600 font-semibold">❌ Save failed, but redirecting anyway in 5 seconds...</p>';
+                                // Still redirect even if save fails
+                                setTimeout(() => {
+                                    console.log('🎯 DEBUG: Redirecting to create-account (after error)');
+                                    window.location.href = '/create-account/';
+                                }, 5000);
+                            });
+                        }, 3000);
+                    } else if (question.type === 'input' || question.type === 'radio' || question.type === 'select' || question.type === 'checkbox') {
+                        this.showInput(question);
+                    } else if (question.delay) {
+                        setTimeout(() => {
+                            this.currentStep++;
+                            this.showMessage(this.questions[this.currentStep]);
+                        }, question.delay);
+                    } else {
+                        // Handle any other question types (shouldn't happen normally)
+                        console.log('DEBUG: Unhandled question type:', question.type);
+                    }
+                });
+            },
+
+            typeWriter(text, elementId, callback) {
+                const element = document.getElementById(elementId);
+                const chatContainer = document.getElementById('chat-container');
+                let i = 0;
+                const speed = 50;
+
+                function typeChar() {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                        
+                        // Scroll to bottom every few characters to keep the typing visible
+                        if (i % 10 === 0 || i === text.length - 1) {
+                            chatContainer.scrollTop = chatContainer.scrollHeight;
+                        }
+                        
+                        setTimeout(typeChar, speed);
+                    } else {
+                        // Final scroll to ensure everything is visible
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                        if (callback) {
+                            callback();
+                        }
+                    }
+                }
+                typeChar();
+            },
+
+            showInput(question) {
+                const inputArea = document.getElementById('input-area');
+                
+                if (question.type === 'radio') {
+                    this.showCheckboxOptions(question);
+                } else if (question.type === 'select') {
+                    this.showSelectOptions(question);
+                } else if (question.type === 'checkbox') {
+                    this.showMultipleCheckboxOptions(question);
+                } else {
+                    const userInput = document.getElementById('user-input');
+                    inputArea.classList.remove('hidden');
+                    if (question.placeholder) {
+                        userInput.placeholder = question.placeholder;
+                    }
+                    // Set input type if specified
+                    if (question.inputType) {
+                        userInput.type = question.inputType;
+                        if (question.min) userInput.min = question.min;
+                        if (question.max) userInput.max = question.max;
+                    } else {
+                        userInput.type = 'text';
+                    }
+                    userInput.focus();
+                    
+                    // Handle form submission
+                    const form = document.getElementById('onboarding-form');
+                    form.onsubmit = (e) => {
+                        e.preventDefault();
+                        this.handleAnswer(question, userInput.value.trim());
+                    };
+                }
+            },
+
+            showCheckboxOptions(question) {
+                const inputArea = document.getElementById('input-area');
+                
+                // Create radio button form
+                inputArea.innerHTML = `
+                    <form id="checkbox-form" class="space-y-4">
+                        <div class="space-y-3">
+                            ${question.options.map((option, index) => `
+                                <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                    <input type="radio" name="option_selection" value="${option}" 
+                                           class="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                                    <span class="text-lg text-gray-700">${option}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                        <button type="submit" 
+                                class="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+                            Continue
+                        </button>
+                    </form>
+                `;
+                
+                inputArea.classList.remove('hidden');
+                
+                // Force scroll to ensure the latest message and dropdown are visible
+                setTimeout(() => {
+                    const chatContainer = document.getElementById('chat-container');
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }, 100);
+                
+                // Handle form submission
+                const form = document.getElementById('checkbox-form');
+                form.onsubmit = (e) => {
+                    e.preventDefault();
+                    const selectedOption = form.querySelector('input[name="option_selection"]:checked');
+                    if (selectedOption) {
+                        this.handleAnswer(question, selectedOption.value);
+                    }
+                };
+            },
+
+            showSelectOptions(question) {
+                const inputArea = document.getElementById('input-area');
+                
+                // Create select form
+                inputArea.innerHTML = `
+                    <form id="select-form" class="space-y-4">
+                        <div class="space-y-3">
+                            <select name="selection" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg bg-white">
+                                <option value="">Choose an option...</option>
+                                ${question.options.map(option => `
+                                    <option value="${option}">${option}</option>
+                                `).join('')}
+                            </select>
+                        </div>
+                        <button type="submit" 
+                                class="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+                            Continue
+                        </button>
+                    </form>
+                `;
+                
+                inputArea.classList.remove('hidden');
+                
+                // Force scroll to ensure the latest message and form are visible
+                setTimeout(() => {
+                    const chatContainer = document.getElementById('chat-container');
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }, 100);
+                
+                // Handle "Other" checkbox toggle
+                const form = document.getElementById('select-form');
+                form.onsubmit = (e) => {
+                    e.preventDefault();
+                    const selectedValue = form.querySelector('select[name="selection"]').value;
+                    if (selectedValue) {
+                        this.handleAnswer(question, selectedValue);
+                    }
+                };
+            },
+
+            showMultipleCheckboxOptions(question) {
+                const inputArea = document.getElementById('input-area');
+                
+                // Separate "None" and "Other (specify)" options from the rest
+                const regularOptions = question.options.filter(option => option !== "None" && option !== "Other (specify)");
+                const hasNoneOption = question.options.includes("None");
+                const hasOtherOption = question.options.includes("Other (specify)");
+                
+                // Create checkbox form with better spacing
+                inputArea.innerHTML = `
+                    <form id="checkbox-multi-form" class="space-y-6 pb-4">
+                        ${hasNoneOption ? `
+                            <div class="space-y-3">
+                                <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                    <input type="checkbox" name="features" value="None" 
+                                           class="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <span class="text-lg text-gray-700">None</span>
+                                </label>
+                            </div>
+                            <div class="border-t border-gray-300 my-4"></div>
+                        ` : ''}
+                        <div class="grid grid-cols-2 gap-3">
+                            ${regularOptions.map((option, index) => `
+                                <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                    <input type="checkbox" name="features" value="${option}" 
+                                           class="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <span class="text-lg text-gray-700">${option}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                        ${hasOtherOption ? `
+                            <div class="border-t border-gray-200 pt-4 space-y-3">
+                                <label class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                    <input type="checkbox" name="features" value="Other" id="other-checkbox"
+                                           class="w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <span class="text-lg text-gray-700">Other (specify)</span>
+                                </label>
+                                <input type="text" id="other-text" placeholder="Please specify..." 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+                                       style="display: none;">
+                            </div>
+                        ` : ''}
+                        <div class="pt-4 border-t border-gray-100">
+                            <button type="submit" 
+                                    class="w-full px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105 text-lg">
+                                Continue
+                            </button>
+                        </div>
+                    </form>
+                `;
+                
+                inputArea.classList.remove('hidden');
+                
+                // Ensure proper spacing after showing the form
+                setTimeout(() => {
+                    const chatContainer = document.getElementById('chat-container');
+                    // Add moderate bottom padding to ensure button is visible
+                    chatContainer.style.paddingBottom = '80px';
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }, 100);
+                
+                // Handle "Other" checkbox toggle
+                const otherCheckbox = document.getElementById('other-checkbox');
+                const otherText = document.getElementById('other-text');
+                
+                if (otherCheckbox && otherText) {
+                    otherCheckbox.addEventListener('change', function() {
+                        if (this.checked) {
+                            otherText.style.display = 'block';
+                            otherText.focus();
+                        } else {
+                            otherText.style.display = 'none';
+                            otherText.value = '';
+                        }
+                    });
+                }
+                
+                // Handle form submission
+                const form = document.getElementById('checkbox-multi-form');
+                form.onsubmit = (e) => {
+                    e.preventDefault();
+                    const selectedOptions = Array.from(form.querySelectorAll('input[name="features"]:checked'))
+                        .map(checkbox => {
+                            if (checkbox.value === 'Other' && otherText && otherText.value.trim()) {
+                                return `Other: ${otherText.value.trim()}`;
+                            }
+                            return checkbox.value;
+                        });
+                    
+                    if (selectedOptions.length > 0) {
+                        this.handleAnswer(question, selectedOptions.join(', '));
+                    } else {
+                        this.handleAnswer(question, 'None selected');
+                    }
+                };
+            },
+
+            handleAnswer(question, answer) {
+                console.log('📝 DEBUG: Handling answer for question:', question.id, 'Answer:', answer);
+                // Allow empty answers for optional questions (current_issues)
+                if (!answer && question.id !== 'current_issues') return;
+
+                // Store the answer (empty string for optional skipped questions)
+                this.userData[question.field] = answer || '';
+                console.log(`Storing ${question.field}: ${answer}`);
+                console.log('Current userData:', this.userData);
+                
+                // Show user's response (or "Skipped" for empty optional answers)
+                const displayAnswer = answer || (question.id === 'current_issues' ? 'No issues to report' : answer);
+                this.showUserMessage(displayAnswer);
+                
+                // Reset chat container padding
+                const chatContainer = document.getElementById('chat-container');
+                chatContainer.style.paddingBottom = '';
+                
+                // Hide input area and reset it
+                const inputArea = document.getElementById('input-area');
+                inputArea.classList.add('hidden');
+                
+                // Preserve the CSRF token before resetting the form
+                const csrfElement = document.querySelector('[name=csrfmiddlewaretoken]');
+                const csrfToken = csrfElement ? csrfElement.outerHTML : '';
+                
+                // Reset input area to original form with CSRF token preserved
+                inputArea.innerHTML = `
+                    <form id="onboarding-form" class="space-y-4">
+                        ${csrfToken}
+                        <div class="flex space-x-3">
+                            <input 
+                                type="text" 
+                                id="user-input" 
+                                name="answer"
+                                class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+                                placeholder="Type your answer..."
+                                autocomplete="off"
+                            />
+                            <button 
+                                type="submit"
+                                class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+                            >
+                                Send
+                            </button>
+                        </div>
+                    </form>
+                `;
+                
+                // Continue to next question or finish
+                setTimeout(() => {
+                    this.currentStep++;
+                    console.log('➡️ DEBUG: Moving to step', this.currentStep, 'of', this.questions.length);
+                    if (this.currentStep < this.questions.length) {
+                        console.log('➡️ DEBUG: Next question:', this.questions[this.currentStep].id);
+                        this.showMessage(this.questions[this.currentStep]);
+                    } else {
+                        // All questions completed - this shouldn't happen now with completion question
+                        console.log('🏁 DEBUG: All questions completed (this shouldn\'t happen with completion question)');
+                    }
+                }, 500);
+            },
+
+            showUserMessage(message) {
+                const chatContainer = document.getElementById('chat-container');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'flex items-start space-x-3 justify-end';
+                
+                messageDiv.innerHTML = `
+                    <div class="flex-1 flex justify-end">
+                        <div class="bg-blue-600 text-white rounded-lg px-4 py-3 max-w-md">
+                            <div class="text-lg leading-relaxed">${message}</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+                        </svg>
+                    </div>
+                `;
+                
+                chatContainer.appendChild(messageDiv);
+                
+                // Always scroll to bottom to show user response
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            },
+
+            completeOnboarding() {
+                // The completion is now handled by the completion question type
+                // This function is no longer needed as the final message is part of the questions array
+            },
+
+            async saveUserData() {
+                try {
+                    console.log('DEBUG: Saving user data:', this.userData);
+                    console.log('DEBUG: userData keys:', Object.keys(this.userData));
+                    console.log('DEBUG: userData values:', Object.values(this.userData));
+                    
+                    // Get CSRF token more reliably
+                    const csrfElement = document.querySelector('[name=csrfmiddlewaretoken]');
+                    const csrfToken = csrfElement ? csrfElement.value : '';
+                    
+                    if (!csrfToken) {
+                        console.warn('CSRF token not found, proceeding without it');
+                    }
+                    
+                    const response = await fetch('/onboarding/save/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken
+                        },
+                        body: JSON.stringify(this.userData)
+                    });
+                    
+                    const result = await response.json();
+                    console.log('DEBUG: Save response:', result);
+                    
+                    if (response.ok && result.success) {
+                        console.log('User data saved successfully');
+                        return result; // Return successful result
+                    } else {
+                        console.error('Error saving user data:', result.message);
+                        throw new Error(result.message || 'Save failed');
+                    }
+                } catch (error) {
+                    console.error('Error saving user data:', error);
+                    throw error; // Re-throw so caller can handle
+                }
+            }
+        };
+
+        // Start the onboarding process when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            onboardingFlow.init();
+        });
+    </script>
+{% endblock %}

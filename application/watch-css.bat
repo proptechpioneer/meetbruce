@@ -1,0 +1,3 @@
+@echo off
+echo Starting Tailwind CSS watch mode...
+.\tailwindcss.exe -i .\static\css\input.css -o .\static\css\output.css --watch

@@ -1,0 +1,296 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Create Your Account - Bruce{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <div class="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-blue-600">
+                <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+            </div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Create Your Account
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Set up your Bruce account to get started
+            </p>
+        </div>
+        
+        <form id="create-account-form" class="mt-8 space-y-6" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="remember" value="true" />
+            
+            <div class="space-y-4">
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">
+                        Username
+                    </label>
+                    <input 
+                        id="username" 
+                        name="username" 
+                        type="text" 
+                        required 
+                        class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                        placeholder="Choose a username"
+                    />
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">
+                        Email Address
+                    </label>
+                    <input 
+                        id="email" 
+                        name="email" 
+                        type="email" 
+                        required 
+                        class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                        placeholder="your.email@example.com"
+                    />
+                </div>
+                
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">
+                        Password
+                    </label>
+                    <input 
+                        id="password" 
+                        name="password" 
+                        type="password" 
+                        required 
+                        class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                        placeholder="Create a secure password"
+                    />
+                </div>
+                
+                <div>
+                    <label for="confirm_password" class="block text-sm font-medium text-gray-700">
+                        Confirm Password
+                    </label>
+                    <input 
+                        id="confirm_password" 
+                        name="confirm_password" 
+                        type="password" 
+                        required 
+                        class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                        placeholder="Confirm your password"
+                    />
+                </div>
+                
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium text-gray-900">Property Address</h3>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="house_flat_number" class="block text-sm font-medium text-gray-700">
+                                House/Flat Number
+                            </label>
+                            <input 
+                                id="house_flat_number" 
+                                name="house_flat_number" 
+                                type="text" 
+                                class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                placeholder="e.g. 42A, Flat 3"
+                            />
+                        </div>
+                        
+                        <div>
+                            <label for="street_number" class="block text-sm font-medium text-gray-700">
+                                Street Number
+                            </label>
+                            <input 
+                                id="street_number" 
+                                name="street_number" 
+                                type="text" 
+                                class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                placeholder="e.g. 123"
+                            />
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="street_name" class="block text-sm font-medium text-gray-700">
+                            Street Name
+                        </label>
+                        <input 
+                            id="street_name" 
+                            name="street_name" 
+                            type="text" 
+                            required 
+                            class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                            placeholder="e.g. Oxford Street"
+                        />
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="town" class="block text-sm font-medium text-gray-700">
+                                Town/City
+                            </label>
+                            <input 
+                                id="town" 
+                                name="town" 
+                                type="text" 
+                                required 
+                                class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                placeholder="e.g. London"
+                            />
+                        </div>
+                        
+                        <div>
+                            <label for="post_code" class="block text-sm font-medium text-gray-700">
+                                Post Code
+                            </label>
+                            <input 
+                                id="post_code" 
+                                name="post_code" 
+                                type="text" 
+                                required 
+                                class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                                placeholder="e.g. SW1A 1AA"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legal Compliance Checkboxes -->
+            <div class="space-y-4 border-t border-gray-200 pt-4">
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input 
+                            id="terms_privacy" 
+                            name="terms_privacy" 
+                            type="checkbox" 
+                            required
+                            checked
+                            class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded"
+                        />
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="terms_privacy" class="font-medium text-gray-700">
+                            I agree to the 
+                            <a href="/terms-and-privacy" target="_blank" class="text-blue-600 hover:text-blue-500 underline">
+                                Terms & Conditions and Privacy Policy
+                            </a>
+                        </label>
+                        <p class="text-gray-500">
+                            By checking this box, you acknowledge that you have read and agree to Bruce's Terms & Conditions and Privacy Policy.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input 
+                            id="gdpr_consent" 
+                            name="gdpr_consent" 
+                            type="checkbox" 
+                            required
+                            checked
+                            class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded"
+                        />
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="gdpr_consent" class="font-medium text-gray-700">
+                            GDPR Data Processing Consent
+                        </label>
+                        <p class="text-gray-500">
+                            I consent to Bruce processing my personal data for providing rental assistance services. I understand I can withdraw this consent at any time.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button 
+                    type="submit"
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105"
+                >
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <svg class="h-5 w-5 text-blue-500 group-hover:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clip-rule="evenodd" />
+                        </svg>
+                    </span>
+                    Create Account
+                </button>
+            </div>
+
+            <div class="text-center">
+                <p class="text-sm text-gray-600">
+                    Already have an account? 
+                    <a href="{% url 'home' %}" class="font-medium text-blue-600 hover:text-blue-500">
+                        Sign in here
+                    </a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('create-account-form');
+    
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const password = formData.get('password');
+        const confirmPassword = formData.get('confirm_password');
+        
+        // Check if passwords match
+        if (password !== confirmPassword) {
+            alert('Passwords do not match. Please try again.');
+            return;
+        }
+        
+        // Check password strength (basic validation)
+        if (password.length < 8) {
+            alert('Password must be at least 8 characters long.');
+            return;
+        }
+        
+        // Check required checkboxes
+        const termsPrivacy = document.getElementById('terms_privacy').checked;
+        const gdprConsent = document.getElementById('gdpr_consent').checked;
+        
+        if (!termsPrivacy) {
+            alert('Please agree to the Terms & Conditions and Privacy Policy to continue.');
+            return;
+        }
+        
+        if (!gdprConsent) {
+            alert('Please provide GDPR consent to continue.');
+            return;
+        }
+        
+        try {
+            const response = await fetch('{% url "create_account_submit" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                alert('Account created successfully! Welcome to Bruce.');
+                window.location.href = '/dashboard/';
+            } else {
+                alert(data.message || 'An error occurred. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        }
+    });
+});
+</script>
+{% endblock %}

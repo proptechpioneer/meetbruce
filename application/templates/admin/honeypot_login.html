@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django administration</title>
+    <meta name="robots" content="NONE,NOARCHIVE">
+    <style>
+        /* Django admin login styling - mimicking the real admin interface */
+        body {
+            font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            background: #79aec8;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #content {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin: 20px;
+        }
+        
+        #header {
+            background: #417690;
+            padding: 20px;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+        }
+        
+        #header h1 {
+            color: #fff;
+            margin: 0;
+            font-size: 24px;
+            font-weight: 300;
+        }
+        
+        .login {
+            padding: 30px;
+        }
+        
+        .form-row {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #79aec8;
+            box-shadow: 0 0 5px rgba(121, 174, 200, 0.3);
+        }
+        
+        .submit-row {
+            text-align: right;
+            margin-top: 30px;
+        }
+        
+        input[type="submit"] {
+            background: #79aec8;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        input[type="submit"]:hover {
+            background: #6a9bb3;
+        }
+        
+        .errornote {
+            background: #ba2121;
+            color: white;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .help_text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body class="login">
+    <div id="container">
+        <div id="content">
+            <div id="header">
+                <h1>Django administration</h1>
+            </div>
+            
+            <form method="post" id="login-form">
+                <div class="login">
+                    {% if error %}
+                        <div class="errornote">{{ error }}</div>
+                    {% endif %}
+                    
+                    {% csrf_token %}
+                    
+                    <div class="form-row">
+                        <label for="id_username">Username:</label>
+                        <input type="text" name="username" autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username">
+                    </div>
+                    
+                    <div class="form-row">
+                        <label for="id_password">Password:</label>
+                        <input type="password" name="password" autocomplete="current-password" required id="id_password">
+                        <div class="help_text">
+                            <a href="/admin/password_reset/">Forgotten your password or username?</a>
+                        </div>
+                    </div>
+                    
+                    <div class="submit-row">
+                        <input type="submit" value="Log in">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

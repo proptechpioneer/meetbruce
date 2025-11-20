@@ -1,0 +1,203 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Bruce | Rent Reviews{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Rental Insights</h1>
+            <p class="text-gray-600 mt-2">Review the rent for your home.</p>
+        </div>
+
+        <!-- Rent Review Process Section -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Rent Review Process</h2>
+            <p class="text-gray-700 leading-relaxed">
+                From 1 May 2026, your landlord will only have the right to increase the rent once each year. However, you will have the right to dispute the increase.
+            </p>
+            <br>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">The Rent Review Steps:</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">To increase the rent the landlord will need to issue you with what is called a Section 13 notice. The landlord must give you at least two months' notice of their intention to increase the rent. Once you receive a Section 13 notice you have two options:</p>
+            <ul class="list-disc list-inside space-y-2 text-gray-700 ml-4" style="list-style-type: disc; padding-left: 1rem;">
+                <li style="display: list-item;"><strong>Do Nothing:</strong> you can simply do nothing, in which case after the two months your rent will automatically increase, or</li>
+                <li style="display: list-item;"><strong>Dispute the Rent:</strong> You can dispute the landlords proposed increase, in which case the case will be referred to the First Tier Tribunal (FTT).</li>
+            </ul>
+            <br>
+            <p class="text-gray-700 leading-relaxed">If you decide to dispute the landlords proposed rental increase, <strong>you must dispute their proposed increase within 2 months'</strong> of receiving their notice.</p>
+            <br>
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">Landlords Issue</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">The issue most landlords are likely to have is that the onus will be on them to prove that the rent has increased. They will need to provide documentary evidence of comparable transactions for similar properties, collecting this data for most landlords will be challenging and expensive to go through a tribunal process.</p>
+            <p class="text-gray-700 leading-relaxed mb-4">On the other hand for the tenant their is no cost to dispute the rent. Even if the landlord does go to the tribunal (and is successful) the rent will only increase from the point the tribunal makes a decision, and the rent cannot be more than the initial Section 13 Notice. </p>
+            <br>
+            <p class="text-gray-700 leading-relaxed mb-4">As a consequence of Renters' Rights Act most rent reviews will become a negotiation, where as a tenant you will have considerably more power.</p>
+        </div>
+
+        <!-- Tribunal Process Section -->
+        <div class="bg-white rounded-lg shadow mb-8">
+            <div class="border-b border-gray-200">
+                <button type="button" onclick="toggleAccordion('tribunalAccordion')" 
+                        class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 focus:outline-none focus:bg-gray-50">
+                    <h2 class="text-xl font-bold text-gray-900">Tribunal Process</h2>
+                    <svg id="tribunalAccordionIcon" class="w-6 h-6 text-gray-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="tribunalAccordion" class="hidden px-6 py-4">
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Initiating the Review</h3>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4" style="list-style-type: disc; padding-left: 1rem;">
+                            <li style="display: list-item;">Either the landlord or tenant submits an application to the First-tier Tribunal to review the rent.</li>
+                            <li style="display: list-item;">The application must specify the proposed new rent and include supporting evidence.</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Preparation and Evidence Gathering</h3>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4" style="list-style-type: disc; padding-left: 1rem;">
+                            <li style="display: list-item;">Both parties gather relevant evidence, such as:
+                                <ul class="list-disc list-inside space-y-1 text-gray-600 ml-6 mt-1" style="list-style-type: circle; padding-left: 1rem;">
+                                    <li style="display: list-item;">Comparable rents for similar properties in the area.</li>
+                                    <li style="display: list-item;">Previous rental agreements and history.</li>
+                                    <li style="display: list-item;">Market conditions and economic factors affecting rent levels.</li>
+                                </ul>
+                            </li>
+                            <li style="display: list-item;">Each party may submit written representations and evidence to support their proposed rent.</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Tribunal Notification and Response</h3>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4" style="list-style-type: disc; padding-left: 1rem;">
+                            <li style="display: list-item;">The Tribunal acknowledges receipt of the application and schedules a hearing.</li>
+                            <li style="display: list-item;">The other party is notified and given an opportunity to respond or submit additional evidence.</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Hearing Process</h3>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4" style="list-style-type: disc; padding-left: 1rem;">
+                            <li style="display: list-item;">Both parties present their case before the Tribunal, explaining their proposed rent and evidence.</li>
+                            <li style="display: list-item;">The Tribunal questions the parties and reviews evidence presented.</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Decision</h3>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4" style="list-style-type: disc; padding-left: 1rem;">
+                            <li style="display: list-item;">The Tribunal considers all evidence, market data, and circumstances.</li>
+                            <li style="display: list-item;">It makes a binding determination of the new, fair rent.</li>
+                            <li style="display: list-item;">The decision is issued in writing, specifying the adjusted rent and reasoning.</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Implementation</h3>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4" style="list-style-type: disc; padding-left: 1rem;">
+                            <li style="display: list-item;">The new rent amount becomes effective from the specified date.</li>
+                            <li style="display: list-item;">Both parties must adhere to the Tribunal's decision.</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Appeal (if applicable)</h3>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4" style="list-style-type: disc; padding-left: 1rem;">
+                            <li style="display: list-item;">Either party can appeal the Tribunal's decision on specific grounds within a set timeframe.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <p class="text-gray-700 mt-4 font-medium">
+                    This process ensures a fair, evidence-based approach to rent adjustments, balancing the interests of both landlords and tenants.
+                </p>
+            </div>
+        </div>
+
+        <!-- How Bruce can Help Section -->
+        <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">How Bruce can Help?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-3">
+                        <div class="shrink-0">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Rent Analysis & Market Data</h3>
+                            <p class="text-gray-700">Get comprehensive analysis of comparable rents in your area to determine if your proposed rent increase is fair and reasonable.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-3">
+                        <div class="shrink-0">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Document Preparation</h3>
+                            <p class="text-gray-700">Help you prepare all necessary documentation and evidence for tribunal submissions or negotiations with landlords.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-3">
+                        <div class="shrink-0">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Legal Guidance & Strategy</h3>
+                            <p class="text-gray-700">Receive expert guidance on your rights under the Renters' Rights Act and develop the best strategy for your situation.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-3">
+                        <div class="shrink-0">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-2-2v-6a2 2 0 012-2h8z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Negotiation Support</h3>
+                            <p class="text-gray-700">Get coaching and templates for effective negotiation with your landlord to reach a fair resolution without tribunal proceedings.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center">
+                <a href="{% url 'rentreviews:review_my_rent' %}" 
+                   class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition duration-300">
+                    Review My Rent
+                    <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+</div>
+
+<script>
+function toggleAccordion(accordionId) {
+    const accordion = document.getElementById(accordionId);
+    const icon = document.getElementById(accordionId + 'Icon');
+    
+    if (accordion.classList.contains('hidden')) {
+        accordion.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+    } else {
+        accordion.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+{% endblock %}

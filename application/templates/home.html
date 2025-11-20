@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Meet Bruce | AI Powered Tenant Advocate{% endblock %}
+
+{% block content %}
+    <div class="h-screen flex items-center justify-center px-4 py-4">
+        <div class="max-w-4xl mx-auto h-full flex items-center">
+            <!-- Chat-like Interface -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden max-h-[80vh] w-full flex flex-col">
+                <!-- Header -->
+                <div class="bg-linear-to-r from-blue-600 to-blue-800 text-white p-6 shrink-0">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-blue-200 rounded-full flex items-center justify-center">
+                            <span class="text-2xl"></span>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold">Meet Bruce</h1>
+                            <p class="text-blue-100">AI-Powered Tenant Advocate</p>
+                            <div class="flex items-center mt-1">
+                                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                <span class="text-sm text-blue-100 ml-2">Online</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Container -->
+                <div id="chat-container" class="p-8 bg-gray-50 flex-1 overflow-y-auto min-h-0">
+                    <!-- Messages will be dynamically added here by JavaScript -->
+                    <div id="typed-message" class="hidden">
+                        <!-- Original message element - now hidden -->
+                    </div>
+
+                    <!-- CTA Buttons (Hidden initially) -->
+                    <div class="text-center mt-8 space-y-4">
+                        <div id="cta-buttons" style="display: none;">
+                            {% if request.session.is_authenticated %}
+                                <!-- Logged in user - Show go to dashboard button -->
+                                <button 
+                                    style="background-color: #2563eb; color: white;"
+                                    onclick="window.location.href='/dashboard/'"
+                                    class="hover:bg-blue-700 font-semibold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+                                    onmouseover="this.style.backgroundColor='#1d4ed8'"
+                                    onmouseout="this.style.backgroundColor='#2563eb'">
+                                    Go to Dashboard
+                                </button>
+                            {% else %}
+                                <!-- Not logged in - Show get started button -->
+                                <button 
+                                    style="background-color: #2563eb; color: white;"
+                                    onclick="window.location.href='{% url 'onboarding' %}'"
+                                    class="hover:bg-blue-700 font-semibold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+                                    onmouseover="this.style.backgroundColor='#1d4ed8'"
+                                    onmouseout="this.style.backgroundColor='#2563eb'">
+                                    Get Started
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="bg-gray-100 px-8 py-4 shrink-0">
+                    <div class="flex items-center justify-between text-sm text-gray-500">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span>Secure & Confidential</span>
+                        </div>
+                        <div>Powered by AI • Available 24/7</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the typewriter script -->
+    <script src="{% static 'js/typewriter.js' %}"></script>
+
+    <!-- Custom styles for animations -->
+    <style>
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fade-in 0.8s ease-out;
+        }
+    </style>
+{% endblock %}
+

@@ -1,0 +1,178 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Bruce | Confirm Contact Details{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 min-h-screen">
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center text-sm text-gray-500 mb-4">
+                <a href="{% url 'report_issue:issue_list' %}" class="hover:text-gray-700">Issues</a>
+                <i class="fas fa-chevron-right mx-2"></i>
+                <span>Confirm Contact Details</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900">Confirm Contact Details</h1>
+            <p class="mt-2 text-gray-600">
+                Please confirm or provide your landlord and property manager contact information. 
+                This helps ensure your issue reports reach the right people.
+            </p>
+        </div>
+
+        <!-- Contact Details Form -->
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                <!-- Contact Type Selection -->
+                <div class="mb-6">
+                    <label class="text-base font-medium text-gray-900 block mb-3">Who is your primary contact for property issues?</label>
+                    <div class="space-y-2">
+                        {% for value, label in form.primary_contact.field.choices %}
+                        <div class="flex items-center">
+                            <input id="contact_{{ value }}" name="primary_contact" type="radio" value="{{ value }}" 
+                                   class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                   {% if form.primary_contact.value == value %}checked{% endif %}
+                                   onchange="toggleContactSections()">
+                            <label for="contact_{{ value }}" class="ml-3 text-sm font-medium text-gray-700">
+                                {{ label }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Landlord Details Section -->
+                <div id="landlord_section" class="space-y-4 p-4 bg-blue-50 rounded-lg">
+                    <h3 class="text-lg font-medium text-gray-900 flex items-center">
+                        <i class="fas fa-user text-blue-600 mr-2"></i>
+                        Landlord Contact Information
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="{{ form.landlord_company_name.id_for_label }}" class="block text-sm font-medium text-gray-700">Company Name</label>
+                            {{ form.landlord_company_name }}
+                        </div>
+                        <div>
+                            <label for="{{ form.landlord_contact_name.id_for_label }}" class="block text-sm font-medium text-gray-700">Contact Person</label>
+                            {{ form.landlord_contact_name }}
+                        </div>
+                        <div>
+                            <label for="{{ form.landlord_email.id_for_label }}" class="block text-sm font-medium text-gray-700">Email</label>
+                            {{ form.landlord_email }}
+                        </div>
+                        <div>
+                            <label for="{{ form.landlord_phone.id_for_label }}" class="block text-sm font-medium text-gray-700">Phone</label>
+                            {{ form.landlord_phone }}
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="{{ form.landlord_address.id_for_label }}" class="block text-sm font-medium text-gray-700">Address</label>
+                            {{ form.landlord_address }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Manager Details Section -->
+                <div id="property_manager_section" class="space-y-4 p-4 bg-green-50 rounded-lg">
+                    <h3 class="text-lg font-medium text-gray-900 flex items-center">
+                        <i class="fas fa-building text-green-600 mr-2"></i>
+                        Property Manager Contact Information
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="{{ form.property_manager_company_name.id_for_label }}" class="block text-sm font-medium text-gray-700">Company Name</label>
+                            {{ form.property_manager_company_name }}
+                        </div>
+                        <div>
+                            <label for="{{ form.property_manager_contact_name.id_for_label }}" class="block text-sm font-medium text-gray-700">Contact Person</label>
+                            {{ form.property_manager_contact_name }}
+                        </div>
+                        <div>
+                            <label for="{{ form.property_manager_email.id_for_label }}" class="block text-sm font-medium text-gray-700">Email</label>
+                            {{ form.property_manager_email }}
+                        </div>
+                        <div>
+                            <label for="{{ form.property_manager_phone.id_for_label }}" class="block text-sm font-medium text-gray-700">Phone</label>
+                            {{ form.property_manager_phone }}
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="{{ form.property_manager_address.id_for_label }}" class="block text-sm font-medium text-gray-700">Address</label>
+                            {{ form.property_manager_address }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="flex justify-between items-center pt-6 border-t">
+                    <a href="{% url 'report_issue:issue_list' %}" 
+                       class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Cancel
+                    </a>
+                    <button type="submit" 
+                            class="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <i class="fas fa-check mr-2"></i>
+                        Confirm Contact Details
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Help Section -->
+        <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h3 class="text-lg font-medium text-blue-900 mb-2">
+                <i class="fas fa-info-circle mr-2"></i>
+                Why do we need this information?
+            </h3>
+            <p class="text-blue-800">
+                Having accurate contact details ensures your property issues are sent to the right people. 
+                This information is stored securely and only used for issue reporting and communication purposes.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Visual emphasis based on radio button selection
+        function updateSectionEmphasis() {
+            const primaryContact = document.querySelector('input[name="primary_contact"]:checked');
+            const landlordSection = document.getElementById('landlord_section');
+            const propertyManagerSection = document.getElementById('property_manager_section');
+            
+            // Reset emphasis
+            landlordSection.classList.remove('ring-2', 'ring-blue-300', 'bg-blue-100');
+            landlordSection.classList.add('bg-blue-50');
+            propertyManagerSection.classList.remove('ring-2', 'ring-green-300', 'bg-green-100');
+            propertyManagerSection.classList.add('bg-green-50');
+            
+            if (primaryContact) {
+                const value = primaryContact.value;
+                
+                // Add emphasis to primary contact section
+                if (value === 'landlord') {
+                    landlordSection.classList.add('ring-2', 'ring-blue-300', 'bg-blue-100');
+                    landlordSection.classList.remove('bg-blue-50');
+                } else if (value === 'property_manager') {
+                    propertyManagerSection.classList.add('ring-2', 'ring-green-300', 'bg-green-100');
+                    propertyManagerSection.classList.remove('bg-green-50');
+                } else if (value === 'both') {
+                    landlordSection.classList.add('ring-2', 'ring-blue-300', 'bg-blue-100');
+                    landlordSection.classList.remove('bg-blue-50');
+                    propertyManagerSection.classList.add('ring-2', 'ring-green-300', 'bg-green-100');
+                    propertyManagerSection.classList.remove('bg-green-50');
+                }
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSectionEmphasis();
+            
+            // Add event listeners to radio buttons
+            document.querySelectorAll('input[name="primary_contact"]').forEach(radio => {
+                radio.addEventListener('change', updateSectionEmphasis);
+            });
+        });
+    </script>
+</div>
+{% endblock %}
