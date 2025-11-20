@@ -1,1 +1,1 @@
-web: cd application && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn application.wsgi:application
+web: cd application && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn application.wsgi:application --bind 0.0.0.0:$PORT
