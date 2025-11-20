@@ -4,11 +4,12 @@
 {% block title %}Meet Bruce | AI Powered Tenant Advocate{% endblock %}
 
 {% block content %}
-    <div class="min-h-screen flex items-center justify-center px-4 py-4 md:h-screen">
-        <div class="max-w-4xl mx-auto h-full flex items-center">
+    <div class="flex items-center justify-center px-4 py-2 md:py-4" 
+         style="min-height: calc(100vh - 4rem); height: calc(100vh - 4rem);">
+        <div class="max-w-4xl mx-auto w-full flex items-center">
             <!-- Chat-like Interface -->
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden w-full flex flex-col" 
-                 style="max-height: calc(100vh - 6rem);">
+                 style="max-height: calc(100vh - 5rem);">
                 <!-- Header -->
                 <div class="bg-linear-to-r from-blue-600 to-blue-800 text-white p-4 md:p-6 shrink-0">
                     <div class="flex items-center space-x-3 md:space-x-4">
@@ -27,7 +28,7 @@
                 </div>
 
                 <!-- Chat Container -->
-                <div id="chat-container" class="p-4 md:p-8 bg-gray-50 flex-1 overflow-y-auto min-h-0">
+                <div id="chat-container" class="p-4 md:p-8 bg-gray-50 flex-1 overflow-y-auto">
                     <!-- Messages will be dynamically added here by JavaScript -->
                     <div id="typed-message" class="hidden">
                         <!-- Original message element - now hidden -->
