@@ -24,6 +24,10 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 
+# Tailwind CSS executable (large file)
+application/tailwindcss.exe
+tailwindcss.exe
+
 # IDEs
 .vscode/
 .idea/
