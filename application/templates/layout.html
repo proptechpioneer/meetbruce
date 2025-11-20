@@ -91,7 +91,7 @@
                 </div>
 
                 <!-- Center Section - Navigation Links -->
-                <div class="flex">
+                <div class="hidden md:flex">
                     <div class="ml-10 bg-gray-100 rounded-full p-1 flex items-baseline space-x-1">
                         <a href="{% url 'about' %}" 
                            class="text-gray-700 hover:text-blue-600 hover:bg-gray-200 px-4 py-2 rounded-full text-sm font-medium transition duration-300 ease-in-out">
@@ -105,7 +105,7 @@
                 </div>
 
                 <!-- Right Section - Auth Buttons -->
-                <div class="flex items-center space-x-4">
+                <div class="hidden md:flex items-center space-x-4">
                     {% if request.session.is_authenticated %}
                         <!-- Logged in user - Show logout button -->
                         <a href="{% url 'logout' %}" 
@@ -132,8 +132,8 @@
                     {% endif %}
                 </div>
 
-                <!-- Mobile menu button - HIDDEN -->
-                <div style="display: none;">
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
                     <button type="button" 
                             id="mobile-menu-button"
                             class="bg-gray-50 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
@@ -148,22 +148,22 @@
             </div>
         </div>
 
-        <!-- Mobile menu (hidden by default) -->
+        <!-- Mobile menu -->
         <div id="mobile-menu" class="md:hidden hidden">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200 shadow-lg">
                 <a href="{% url 'about' %}" 
-                   class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
+                   class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium">
                     About
                 </a>
-                <a href="#" 
-                   class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
+                <a href="{% url 'rrb' %}" 
+                   class="text-gray-700 hover:text-blue-600 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium">
                     Renters' Rights Act
                 </a>
                 <div class="border-t border-gray-200 pt-4">
                     {% if request.session.is_authenticated %}
                         <!-- Mobile logged in user - Show logout button -->
                         <a href="{% url 'logout' %}" 
-                           class="block px-3 py-2 rounded-md text-base font-medium mt-2"
+                           class="block px-3 py-2 rounded-md text-base font-medium mt-2 text-center"
                            style="background-color: #2563eb; color: white !important;"
                            onmouseover="this.style.backgroundColor='#1d4ed8'; this.style.color='white'"
                            onmouseout="this.style.backgroundColor='#2563eb'; this.style.color='white'">
@@ -172,11 +172,11 @@
                     {% else %}
                         <!-- Mobile not logged in - Show login and get started buttons -->
                         <a href="{% url 'login' %}" 
-                           class="text-gray-700 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">
+                           class="text-gray-700 hover:text-gray-900 hover:bg-gray-50 block px-3 py-2 rounded-md text-base font-medium">
                             Login
                         </a>
                         <a href="{% url 'onboarding' %}" 
-                           class="block px-3 py-2 rounded-md text-base font-medium mt-2"
+                           class="block px-3 py-2 rounded-md text-base font-medium mt-2 text-center"
                            style="background-color: #2563eb; color: white !important;"
                            onmouseover="this.style.backgroundColor='#1d4ed8'; this.style.color='white'"
                            onmouseout="this.style.backgroundColor='#2563eb'; this.style.color='white'">
@@ -204,12 +204,54 @@
             const mobileMenu = document.getElementById('mobile-menu');
             
             if (mobileMenuButton && mobileMenu) {
+                // Toggle mobile menu
                 mobileMenuButton.addEventListener('click', function() {
                     const isHidden = mobileMenu.classList.contains('hidden');
                     if (isHidden) {
+                        // Show menu
                         mobileMenu.classList.remove('hidden');
                         mobileMenuButton.setAttribute('aria-expanded', 'true');
+                        
+                        // Animate slide down
+                        mobileMenu.style.maxHeight = '0';
+                        mobileMenu.style.opacity = '0';
+                        requestAnimationFrame(() => {
+                            mobileMenu.style.transition = 'all 0.3s ease-in-out';
+                            mobileMenu.style.maxHeight = '500px';
+                            mobileMenu.style.opacity = '1';
+                        });
                     } else {
+                        // Hide menu
+                        mobileMenu.style.transition = 'all 0.2s ease-in-out';
+                        mobileMenu.style.maxHeight = '0';
+                        mobileMenu.style.opacity = '0';
+                        
+                        setTimeout(() => {
+                            mobileMenu.classList.add('hidden');
+                            mobileMenuButton.setAttribute('aria-expanded', 'false');
+                        }, 200);
+                    }
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.style.transition = 'all 0.2s ease-in-out';
+                            mobileMenu.style.maxHeight = '0';
+                            mobileMenu.style.opacity = '0';
+                            
+                            setTimeout(() => {
+                                mobileMenu.classList.add('hidden');
+                                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                            }, 200);
+                        }
+                    }
+                });
+
+                // Close menu on window resize to desktop size
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth >= 768) { // md breakpoint
                         mobileMenu.classList.add('hidden');
                         mobileMenuButton.setAttribute('aria-expanded', 'false');
                     }
