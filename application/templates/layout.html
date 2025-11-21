@@ -51,6 +51,21 @@
             font-family: 'Anek Latin', 'Inter', Arial, Helvetica, sans-serif !important;
         }
         
+        /* Debug navigation visibility */
+        @media (min-width: 768px) {
+            .nav-desktop {
+                display: flex !important;
+            }
+            .nav-center {
+                display: flex !important;
+                visibility: visible !important;
+            }
+            .nav-right {
+                display: flex !important;
+                visibility: visible !important;
+            }
+        }
+        
         /* Remove underlines from all hyperlinks globally */
         a {
             text-decoration: none !important;
@@ -91,7 +106,7 @@
                 </div>
 
                 <!-- Center Section - Navigation Links -->
-                <div class="hidden md:flex">
+                <div class="hidden md:flex nav-center">
                     <div class="ml-10 bg-gray-100 rounded-full p-1 flex items-baseline space-x-1">
                         <a href="{% url 'about' %}" 
                            class="text-gray-700 hover:text-blue-600 hover:bg-gray-200 px-4 py-2 rounded-full text-sm font-medium transition duration-300 ease-in-out">
@@ -105,8 +120,8 @@
                 </div>
 
                 <!-- Right Section - Auth Buttons -->
-                <div class="hidden md:flex items-center space-x-4">
-                    {% if request.session.is_authenticated %}
+                <div class="hidden md:flex items-center space-x-4 nav-right">
+                    {% if request.user.is_authenticated %}
                         <!-- Logged in user - Show logout button -->
                         <a href="{% url 'logout' %}" 
                            class="font-semibold px-4 py-2 rounded-full text-sm transition duration-300 ease-in-out transform hover:scale-105 shadow-sm"
@@ -160,7 +175,7 @@
                     Renters' Rights Act
                 </a>
                 <div class="border-t border-gray-200 pt-4">
-                    {% if request.session.is_authenticated %}
+                    {% if request.user.is_authenticated %}
                         <!-- Mobile logged in user - Show logout button -->
                         <a href="{% url 'logout' %}" 
                            class="block px-3 py-2 rounded-md text-base font-medium mt-2 text-center"

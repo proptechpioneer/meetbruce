@@ -36,7 +36,7 @@
                     <!-- CTA Buttons (Hidden initially) -->
                     <div class="text-center mt-4 md:mt-8 space-y-4 pb-6">
                         <div id="cta-buttons" style="display: none;">
-                            {% if request.session.is_authenticated %}
+                            {% if request.user.is_authenticated %}
                                 <!-- Logged in user - Show go to dashboard button -->
                                 <button 
                                     style="background-color: #2563eb; color: white; min-height: 44px;"
