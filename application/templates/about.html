@@ -6,43 +6,31 @@
     <div class="min-h-screen flex items-center justify-center px-4 py-8">
         <div class="max-w-4xl mx-auto">
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-                <!-- Header -->
-                <div class="bg-linear-to-r from-gray-600 to-gray-800 text-white p-6">
-                    <div>
-                        <h1 class="text-2xl font-bold">About Bruce</h1>
-                        <p class="text-gray-100">Learn more about your AI advocate</p>
-                    </div>
-                </div>
 
                 <!-- Content -->
                 <div class="p-8">
                     <div class="space-y-8">
                         <!-- Introduction Section -->
                         <div class="text-center space-y-4">
-                            <h2 class="text-3xl font-bold text-gray-900">Bruce: Your AI-Powered Tenant Advocate</h2>
-                            <p class="text-xl text-gray-600 font-medium">Empowering Tenants in the Evolving English Rental Market</p>
+                            <h2 class="text-3xl font-bold text-gray-900">Empowering Renters for a Brighter Tomorrow</h2>
                         </div>
 
                         <!-- Welcome Section -->
                         <div class="bg-gray-50 rounded-xl p-6">
-                            <h3 class="text-2xl font-bold text-gray-900 mb-4">Welcome to the Future of Renting</h3>
                             <p class="text-gray-800 text-lg leading-relaxed mb-4">
-                                Did you know that most landlords today have access to advanced software platforms to manage their properties and tenants? There are hundreds of options available, each designed to help landlords efficiently oversee every aspect of property management. These platforms ensure that rent is collected on time, rents are maximised, and prospective tenants are thoroughly vetted.
+                                Did you know most landlords use smart software to manage their properties? There are tons of these tools out there, helping landlords reduce costs and push rents as high as possible - so they can get the most possible profit.
                             </p>
                             <p class="text-gray-800 text-lg leading-relaxed">
-                                But what about tenants? Surprisingly, until now, there has been no equivalent solution to support those renting a home. This is where I come in.
+                                But what about you, the renters? Surprisingly, there hasn’t been a similar solution to help tenants until now. That’s where I come in!
                             </p>
                         </div>
 
                         <!-- Bruce Introduction -->
                         <div class="flex items-start space-x-4">
-                            <div class="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center shrink-0">
-                                <span class="text-white text-xl font-bold">B</span>
-                            </div>
-                            <div class="bg-blue-50 rounded-2xl rounded-tl-sm p-6 flex-1">
-                                <h3 class="text-xl font-bold text-blue-900 mb-3">Introducing Bruce: The World's First AI-Powered Tenant Advocate</h3>
+
+                            <div class="bg-blue-50 rounded-2xl rounded-tl-sm p-6 flex-1">            
                                 <p class="text-blue-800 text-lg leading-relaxed">
-                                    Hello! I'm Bruce, your dedicated AI-powered Tenant Advocate. My mission is to help you, the tenant, confidently navigate your relationship with your landlord and make the most of your renting experience.
+                                    Hello! I'm Bruce, your dedicated AI-powered Tenant Advocate. My mission is to help you, the tenant, confidently navigate your relationship with your landlord and make the most of your renting experience.<br><br>With the new Renters Rights Act, I’m here to empower you to understand your rights and get the most benefits, ensuring you enjoy a fair and fulfilling renting journey!
                                 </p>
                             </div>
                         </div>
@@ -53,41 +41,118 @@
                             <p class="text-green-800 text-lg leading-relaxed mb-4">
                                 On 1 May 2026, the Renters' Rights Act will become law in England. This landmark legislation represents the biggest shake-up of the English rental market in 40 years, granting tenants new powers to challenge unfair rental practices and assert their rights.
                             </p>
-                            <p class="text-green-800 text-lg leading-relaxed">
-                                With these changes on the horizon, I'm here to ensure you are fully prepared. My goal is to help drive rogue landlords from the market and empower you to protect your interests.
+                            <a href="{% url 'rrb' %}" 
+                               class="inline-flex items-center space-x-2 text-green-700 hover:text-green-900 font-semibold text-lg transition duration-300">
+                                <span>Find out more about the Renters' Rights Act</span>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        </div>
+
+                        <!-- Get a Fairer Deal on your Rent -->
+                        <div class="bg-purple-50 border border-purple-200 rounded-lg p-6">
+                            <h3 class="text-xl font-bold text-purple-900 mb-3">Get a Fairer Deal on your Rent</h3>
+                            <p class="text-purple-800 text-lg leading-relaxed mb-4">
+                                Starting May 1st next year, every private renter will have the power to challenge any unfair rent increase. I can help you get a fairer deal on your rent:
+                            </p>
+                            <ul class="space-y-4 text-purple-800 text-lg list-none">
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-purple-600 font-bold text-xl shrink-0">•</span>
+                                    <span><strong>Challenge with Confidence:</strong> If your landlord proposes a rent increase, I can help you bring a case to the Tribunal for free, ensuring you know if the increase is fair.</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-purple-600 font-bold text-xl shrink-0">•</span>
+                                    <span><strong>No Risk of Higher Increases:</strong> The Tribunal can only approve your landlord's proposed amount, so you won't face a higher increase.</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-purple-600 font-bold text-xl shrink-0">•</span>
+                                    <span><strong>Delay on Increases:</strong> If you challenge the proposed increase, it won't take effect until the Tribunal makes its decision, allowing you to delay any increase for several months.</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-purple-600 font-bold text-xl shrink-0">•</span>
+                                    <span><strong>Support for Hardship:</strong> The Tribunal can defer any increase by up to two months to help prevent undue financial pressure on you.</span>
+                                </li>
+                            </ul>
+                            <p class="text-purple-800 text-lg leading-relaxed mt-4 font-semibold">
+                                With my help, you can confidently navigate rent reviews and protect your rights!
                             </p>
                         </div>
 
-                        <!-- How Bruce Can Help -->
-                        <div class="bg-blue-50 border-l-4 border-blue-400 p-6 rounded-r-lg">
-                            <h3 class="text-xl font-bold text-blue-900 mb-4">How Bruce Can Help You</h3>
-                            <ul class="space-y-3 text-blue-800">
-                                <li class="flex items-center space-x-3">
-                                    <span class="w-3 h-3 bg-blue-500 rounded-full shrink-0"></span>
-                                    <span class="text-lg">Ensure your landlord is following the law</span>
+                        <!-- Deal with Maintenance Issues -->
+                        <div class="bg-orange-50 border border-orange-200 rounded-lg p-6">
+                            <h3 class="text-xl font-bold text-orange-900 mb-3">Deal with Maintenance Issues</h3>
+                            <p class="text-orange-800 text-lg leading-relaxed mb-4">
+                                I can help notify your landlord about necessary repair and maintenance issues:
+                            </p>
+                            <ul class="space-y-4 text-orange-800 text-lg list-none mb-4">
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-orange-600 font-bold text-xl shrink-0">•</span>
+                                    <span><strong>Notify Landlords:</strong> I can help notify your landlord about necessary repair and maintenance issues.</span>
                                 </li>
-                                <li class="flex items-center space-x-3">
-                                    <span class="w-3 h-3 bg-blue-500 rounded-full shrink-0"></span>
-                                    <span class="text-lg">Negotiate better lease terms on your behalf</span>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-orange-600 font-bold text-xl shrink-0">•</span>
+                                    <span><strong>Track Progress:</strong> I monitor the status of repairs to ensure they are addressed in a timely manner.</span>
                                 </li>
-                                <li class="flex items-center space-x-3">
-                                    <span class="w-3 h-3 bg-blue-500 rounded-full shrink-0"></span>
-                                    <span class="text-lg">Monitor proposed rent increases to secure the best possible deal</span>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-orange-600 font-bold text-xl shrink-0">•</span>
+                                    <span><strong>Escalate Issues:</strong> If your landlord doesn't respond, I can assist in escalating the matter to your local council and the Housing Ombudsman.</span>
                                 </li>
-                                <li class="flex items-center space-x-3">
-                                    <span class="w-3 h-3 bg-blue-500 rounded-full shrink-0"></span>
-                                    <span class="text-lg">Log and escalate repair requests efficiently</span>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-orange-600 font-bold text-xl shrink-0">•</span>
+                                    <span><strong>Gather Evidence:</strong> I help you collect and organize all relevant documents, including correspondence, photographs, receipts, and any other evidence to support your claim.</span>
                                 </li>
-                                <li class="flex items-center space-x-3">
-                                    <span class="w-3 h-3 bg-blue-500 rounded-full shrink-0"></span>
-                                    <span class="text-lg">Help you fully understand your rights as a tenant</span>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-orange-600 font-bold text-xl shrink-0">•</span>
+                                    <span><strong>Present a Strong Case:</strong> With comprehensive evidence, you can confidently present your case and ensure your rights as a tenant are upheld.</span>
                                 </li>
                             </ul>
+                            <p class="text-orange-800 text-lg leading-relaxed font-semibold">
+                                With my help, you can ensure a safe and well-maintained living environment!
+                            </p>
                         </div>
 
-                        <!-- Call to Action -->
-                        <div class="bg-linear-to-r from-gray-600 to-gray-800 rounded-xl p-6 text-center text-white">
-                            <p class="text-lg leading-relaxed mb-4">
+                        <!-- Verify Compliance -->
+                        <div class="bg-teal-50 border border-teal-200 rounded-lg p-6">
+                            <h3 class="text-xl font-bold text-teal-900 mb-3">Verify Compliance</h3>
+                            <p class="text-teal-800 text-lg leading-relaxed mb-4">
+                                I can help ensure your landlord complies with all rental laws:
+                            </p>
+                            <ul class="space-y-4 text-teal-800 text-lg list-none mb-4">
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-teal-600 font-bold text-xl shrink-0">•</span>
+                                    <span><strong>Deposit Protection:</strong> I can assist in verifying that your deposit is protected in a government-approved scheme, which is crucial for your security.</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-teal-600 font-bold text-xl shrink-0">•</span>
+                                    <span><strong>Landlord Licenses:</strong> I ensure your landlord holds the necessary licenses to operate legally, safeguarding your rights as a tenant.</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-teal-600 font-bold text-xl shrink-0">•</span>
+                                    <span><strong>Safety Tests:</strong> I help confirm that your landlord conducts required safety tests, such as gas and electrical inspections, ensuring a safe living environment.</span>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="text-teal-600 font-bold text-xl shrink-0">•</span>
+                                    <span><strong>Peace of Mind:</strong> By ensuring compliance, you can feel secure and confident in your rental arrangement.</span>
+                                </li>
+                            </ul>
+                            <p class="text-teal-800 text-lg leading-relaxed font-semibold">
+                                With my help, you can protect your rights and enjoy your home worry-free!
+                            </p>
+                        </div>
+
+                        <!-- Chat with Me -->
+                        <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-6">
+                            <h3 class="text-xl font-bold text-indigo-900 mb-3">Chat with Me</h3>
+                            <p class="text-indigo-800 text-lg leading-relaxed">
+                                Have questions or need advice about your renting experience? I'm here to help! You can ask me about other issues with your landlord or property and I'll provide you with the information and support you need to navigate your tenancy confidently!
+                            </p>
+                        </div>
+                    <br>
+
+                    <!-- Call to Action -->
+                    <div class="text-center">
+                            <p class="text-indigo-800 text-lg leading-relaxed mb-4">
                                 Are you ready to take control of your renting experience? Click 'Get Started' below and let Bruce guide you towards a fairer, more transparent rental journey! 🚀
                             </p>
                         </div>
@@ -95,12 +160,9 @@
 
                     <!-- Action Buttons -->
                     <div class="flex justify-center space-x-4 mt-8">
-                        <a href="{% url 'home' %}" 
-                           class="inline-flex items-center space-x-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                            </svg>
-                            <span>Back to Chat</span>
+                        <a href="{% url 'onboarding' %}" 
+                           class="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+                            <span>Get Started</span>
                         </a>
                     </div>
                 </div>

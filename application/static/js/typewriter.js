@@ -24,23 +24,22 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 📝 EDIT YOUR LINES HERE - Each line appears in its own box
             const lines = [
-                "Did you know that most landlords have advanced software platforms to manage their properties",
-                "These platforms help them efficiently manage every element of their property, collect the rent on time and get as much rent as possible",
-                "Did you know there is no equivalent for tenants",
-                "Until now...",
-                "Hello! I'm Bruce the world's first AI-powered Tenant Advocate",
-                "I help tenants navigate their relationship with their landlords",
-                "On 1 May 2026, the Renters' Rights Act will become law in England",
-                "This will be the biggest shake up of the English rental market in 40 years",
-                "It gives you new powers to challenge unfair rental practices",
-                "I'm on a mission to help drive rogue landlords from the market",
-                "I can help you...",
-                "Make sure your landlord is following the law",
-                "Monitor landlords proposed rent increases to make sure you get the best deal",
-                "Log and escalate repairs",
-                "Help you understand your rights",
-                "Ready to get started?",
-                "Click 'Get Started' below to begin! 🚀"
+            "Hey! Did you know most landlords use smart software to manage their properties?",
+            "These tools help them cut costs and push rents up to maximise profits.",
+            "But what about you, the renter?",
+            "Until now, there hasn't been anything for tenants",
+            "Hi, I'm Bruce, the world's first AI-powered Tenant Advocate.",
+            "I’m here to help you navigate your landlord relationship.",
+            "Starting May 1, 2026, the Renters' Rights Act will shake up the English rental market.",
+            "You’ll gain new powers to challenge unfair practices!",
+            "My mission is to help you tackle rogue landlords.",
+            "I can help you:",
+            "✅ Get a better deal on your rent.",
+            "✅ Coordinate repairs and escalate issues with your landlord.",
+            "✅ Make sure your landlord is compliant with the law",
+            "✅ Understand your rights.",
+            "Ready to get started?",
+            "Click 'Get Started' below! 🚀"
             ];
             
             // ⚙️ TIMING SETTINGS
@@ -52,9 +51,9 @@ document.addEventListener('DOMContentLoaded', function() {
             function createMessageBox(lineIndex) {
                 // Create a new message box for this line
                 const messageBox = document.createElement('div');
-                messageBox.className = 'flex items-start space-x-3 mb-6';
+                messageBox.className = 'flex items-start space-x-3 mb-2';
                 messageBox.innerHTML = `
-                    <div class="bg-white rounded-2xl rounded-tl-sm shadow-sm p-6 max-w-3xl">
+                    <div class="bg-white rounded-2xl rounded-tl-sm shadow-sm p-3 max-w-3xl">
                         <div id="message-line-${lineIndex}" class="text-gray-800 text-lg leading-relaxed font-medium">
                             <!-- Text will be typed here -->
                         </div>

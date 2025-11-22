@@ -19,7 +19,10 @@
                             <h1 class="text-xl md:text-2xl font-bold">Meet Bruce</h1>
                             <p class="text-blue-100 text-sm md:text-base">AI-Powered Tenant Advocate</p>
                             <div class="flex items-center mt-1">
-                                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                <div style="position: relative; display: inline-flex; height: 12px; width: 12px;">
+                                    <span style="position: absolute; display: inline-flex; height: 100%; width: 100%; border-radius: 50%; background-color: rgb(74, 222, 128); opacity: 0.75; animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;"></span>
+                                    <span style="position: relative; display: inline-flex; border-radius: 50%; height: 12px; width: 12px; background-color: rgb(34, 197, 94);"></span>
+                                </div>
                                 <span class="text-xs md:text-sm text-blue-100 ml-2">Online</span>
                             </div>
                         </div>
@@ -36,7 +39,7 @@
                     <!-- CTA Buttons (Hidden initially) -->
                     <div class="text-center mt-4 md:mt-8 space-y-4 pb-6">
                         <div id="cta-buttons" style="display: none;">
-                            {% if request.user.is_authenticated %}
+                            {% if request.session.is_authenticated %}
                                 <!-- Logged in user - Show go to dashboard button -->
                                 <button 
                                     style="background-color: #2563eb; color: white; min-height: 44px;"
