@@ -10,6 +10,9 @@
         {% endblock %}
     </title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'images/icon.png' %}">
+    
     <!-- Google Fonts - Anek Latin with fallback for testing -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -112,7 +115,7 @@
                 <div class="shrink-0 flex items-center">
                     <a href="{% url 'home' %}" class="flex items-center space-x-3">
                         <div style="width: 140px; height: 140px;" class="rounded-lg flex items-center justify-center">
-                            <img src="{% static 'images/bruce_logo_for_prototype.png' %}" alt="Bruce Logo" style="width: 140px; height: 140px; object-fit: contain;">
+                            <img src="{% static 'images/logo.png' %}" alt="Bruce Logo" style="width: 140px; height: 140px; object-fit: contain;">
                         </div>
                     </a>
                 </div>
