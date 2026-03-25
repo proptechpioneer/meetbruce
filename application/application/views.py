@@ -47,16 +47,7 @@ def admin_honeypot(request):
     return render(request, 'admin/honeypot_login.html')
 
 def home(request):
-    # If user is authenticated, redirect to dashboard
-    if request.session.get('is_authenticated'):
-        return redirect('/dashboard/')
-    
-    context = {
-        'is_authenticated': request.session.get('is_authenticated', False),
-        'user_id': request.session.get('user_id'),
-        'username': request.session.get('username')
-    }
-    return render(request, 'home.html', context)
+    return about(request)
 
 def about(request):
     context = {
