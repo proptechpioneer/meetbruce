@@ -27,7 +27,7 @@ urlpatterns = [
     # Honeypot admin (fake)
     path('admin/', views.admin_honeypot, name='admin_honeypot'),
     path('admin/login/', views.admin_honeypot, name='admin_honeypot_login'),
-    path('' , views.about, name='home'),
+    path('' , views.about_preview, name='home'),
     path('about', views.about, name='about'),
     path('about-preview/', views.about_preview, name='about_preview'),
     re_path(
