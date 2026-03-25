@@ -57,6 +57,10 @@ def about(request):
     }
     return render(request, 'about.html', context)
 
+
+def about_preview(request):
+    return render(request, 'anima_home_preview.html')
+
 def rrb(request):
     return render(request, 'rrb.html')
 

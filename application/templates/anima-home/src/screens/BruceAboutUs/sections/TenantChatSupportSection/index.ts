@@ -1,0 +1,1 @@
+export { TenantChatSupportSection } from "./TenantChatSupportSection";

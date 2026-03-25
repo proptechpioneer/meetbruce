@@ -1,0 +1,1 @@
+export { RentersRightsDetailsSection } from "./RentersRightsDetailsSection";

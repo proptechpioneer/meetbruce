@@ -48,7 +48,11 @@ In your Railway project dashboard, add these environment variables:
 SECRET_KEY=your-generated-secret-key-here
 DEBUG=False
 ALLOWED_HOSTS=your-app-name.up.railway.app
+CANONICAL_HOST=your-primary-domain.com
+CSRF_TRUSTED_ORIGINS=https://your-primary-domain.com
 ```
+
+If you want the app to resolve to only one public URL, set `CANONICAL_HOST` to your preferred domain. Any requests that arrive on the Railway-generated domain will be redirected to that host.
 
 #### Generate a Secret Key:
 ```python
@@ -77,7 +81,16 @@ python application/manage.py createsuperuser
 ### Custom Domain (Optional)
 1. In Railway dashboard, go to Settings > Domains
 2. Add your custom domain
-3. Update `ALLOWED_HOSTS` environment variable
+3. Update `ALLOWED_HOSTS`, `CANONICAL_HOST`, and `CSRF_TRUSTED_ORIGINS`
+
+### Consolidate to One Public Site
+If you currently have two Railway URLs for the same app, do both:
+1. Keep a single Railway service for this repository.
+2. Remove the extra domain or project in Railway if it is no longer needed.
+3. Set `CANONICAL_HOST` to the one domain you want users to see.
+4. Set `CSRF_TRUSTED_ORIGINS` to `https://` plus that domain.
+
+This setup gives you one public site even if Railway still assigns a generated fallback domain.
 
 ### SSL/HTTPS
 Railway automatically provides SSL certificates for all deployments.

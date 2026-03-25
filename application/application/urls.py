@@ -15,9 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 from . import views 
 
 urlpatterns = [
@@ -28,6 +29,15 @@ urlpatterns = [
     path('admin/login/', views.admin_honeypot, name='admin_honeypot_login'),
     path('' , views.about, name='home'),
     path('about', views.about, name='about'),
+    path('about-preview/', views.about_preview, name='about_preview'),
+    re_path(
+        r'^img/(?P<path>.+)$',
+        RedirectView.as_view(
+            url=settings.STATIC_URL + 'anima-home/img/%(path)s',
+            permanent=False,
+        ),
+        name='anima_img_redirect',
+    ),
     path('rrb', views.rrb, name='rrb'),
     path('login/', views.login_view, name='login'),
     path('accounts/login/', views.login_view, name='accounts_login'),

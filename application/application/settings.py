@@ -28,16 +28,21 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-_^h4j4)@#tl0=bzxde!90
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='').split(',') if config('CSRF_TRUSTED_ORIGINS', default='') else []
 
 # Railway specific settings
 RAILWAY_STATIC_URL = config('RAILWAY_STATIC_URL', default='')
 RAILWAY_PUBLIC_DOMAIN = config('RAILWAY_PUBLIC_DOMAIN', default='')
+CANONICAL_HOST = config('CANONICAL_HOST', default='').strip()
 
 if RAILWAY_PUBLIC_DOMAIN:
     ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
 if config('RAILWAY_ENVIRONMENT', default='') == 'production':
     ALLOWED_HOSTS.append('.railway.app')
     ALLOWED_HOSTS.append('.up.railway.app')
+if CANONICAL_HOST and CANONICAL_HOST not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(CANONICAL_HOST)
+    CSRF_TRUSTED_ORIGINS.append(f'https://{CANONICAL_HOST}')
 
 
 # Application definition
@@ -59,6 +64,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'application.middleware.CanonicalHostMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -154,6 +160,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Security settings for production
 if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     X_FRAME_OPTIONS = 'DENY'

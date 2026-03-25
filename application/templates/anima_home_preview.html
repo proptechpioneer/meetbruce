@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Meet Bruce | Home Preview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Inter:300,400,500,700,600");
+      @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+
+      * {
+        -webkit-font-smoothing: antialiased;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+      }
+
+      button:focus-visible {
+        outline: 2px solid #4a90e2 !important;
+        outline: -webkit-focus-ring-color auto 5px !important;
+      }
+
+      a {
+        text-decoration: none;
+      }
+    </style>
+
+    <link rel="stylesheet" href="{% static 'anima-home/assets/index.css' %}" />
+    <script>
+      (function () {
+        var staticImgPrefix = "{% static 'anima-home/img/' %}";
+
+        function rewriteImage(node) {
+          if (!node || node.tagName !== "IMG") {
+            return;
+          }
+
+          var src = node.getAttribute("src");
+          if (src && src.indexOf("/img/") === 0) {
+            node.setAttribute("src", staticImgPrefix + src.slice(5));
+          }
+        }
+
+        var observer = new MutationObserver(function (mutations) {
+          mutations.forEach(function (mutation) {
+            mutation.addedNodes.forEach(function (added) {
+              if (added.nodeType !== 1) {
+                return;
+              }
+
+              rewriteImage(added);
+              added.querySelectorAll && added.querySelectorAll("img").forEach(rewriteImage);
+            });
+          });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+          document.querySelectorAll("img").forEach(rewriteImage);
+          observer.observe(document.body, { childList: true, subtree: true });
+        });
+      })();
+    </script>
+    <script type="module" src="{% static 'anima-home/assets/index.js' %}"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
