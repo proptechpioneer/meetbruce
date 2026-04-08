@@ -1,73 +1,397 @@
+{% extends "layout.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Meet Bruce | Home Preview</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-      @import url("https://fonts.googleapis.com/css?family=Inter:300,400,500,700,600");
-      @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
 
-      * {
-        -webkit-font-smoothing: antialiased;
-        box-sizing: border-box;
-      }
+{% block title %}Meet Bruce | AI Powered Tenant Advocate{% endblock %}
 
-      html,
-      body {
+{% block content %}
+<style>
+    .home-shell {
+        padding: 24px 16px 72px;
+    }
+
+    .hero-panel {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 24px;
+        align-items: center;
+        padding: 28px;
+        border-radius: 28px;
+        background: linear-gradient(135deg, #0d1b26 0%, #13293d 58%, #1c3b56 100%);
+        color: #fff;
+        box-shadow: 0 24px 60px rgba(13, 27, 38, 0.18);
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+        color: #dbeafe;
+        font-size: 0.92rem;
+        font-weight: 600;
+        margin-bottom: 14px;
+    }
+
+    .hero-title {
+        font-size: clamp(2.25rem, 4vw, 3.5rem);
+        line-height: 1.05;
+        margin: 0 0 14px;
+        color: #fff;
+    }
+
+    .hero-copy {
+        font-size: 1.06rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.86);
+        margin-bottom: 18px;
+        max-width: 640px;
+    }
+
+    .hero-points {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin: 18px 0 24px;
+        padding: 0;
+        list-style: none;
+    }
+
+    .hero-points li {
+        background: rgba(255, 255, 255, 0.09);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        padding: 12px 14px;
+        color: #f8fafc;
+        font-size: 0.96rem;
+    }
+
+    .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .cta-primary,
+    .cta-secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-weight: 700;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .cta-primary {
+        background: #ff6e42;
+        color: #111827 !important;
+        box-shadow: 0 12px 24px rgba(255, 110, 66, 0.28);
+    }
+
+    .cta-primary:hover {
+        transform: translateY(-1px);
+        background: #ff824f;
+    }
+
+    .cta-secondary {
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        color: #fff !important;
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    .cta-secondary:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.12);
+    }
+
+    .hero-visual {
+        background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06));
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 22px;
+        padding: 18px;
+        backdrop-filter: blur(8px);
+    }
+
+    .hero-visual img {
+        width: 100%;
+        border-radius: 16px;
+        display: block;
+        box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+    }
+
+    .info-strip {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin: 18px 0 28px;
+    }
+
+    .info-card,
+    .feature-card,
+    .quote-card,
+    .cta-panel {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .info-card {
+        padding: 18px;
+    }
+
+    .info-card strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #0f172a;
+        font-size: 1.05rem;
+    }
+
+    .info-card span {
+        color: #475569;
+        line-height: 1.6;
+    }
+
+    .section-heading {
+        margin: 18px 0 14px;
+    }
+
+    .section-heading h2 {
+        margin: 0 0 8px;
+        font-size: clamp(1.7rem, 2.6vw, 2.3rem);
+        color: #111827;
+    }
+
+    .section-heading p {
         margin: 0;
-        height: 100%;
-      }
+        color: #4b5563;
+        line-height: 1.7;
+    }
 
-      button:focus-visible {
-        outline: 2px solid #4a90e2 !important;
-        outline: -webkit-focus-ring-color auto 5px !important;
-      }
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 18px;
+    }
 
-      a {
-        text-decoration: none;
-      }
-    </style>
+    .feature-card {
+        padding: 22px;
+    }
 
-    <link rel="stylesheet" href="{% static 'anima-home/assets/index.css' %}" />
-    <script>
-      (function () {
-        var staticImgPrefix = "{% static 'anima-home/img/' %}";
+    .feature-icon {
+        width: 42px;
+        height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: #eff6ff;
+        color: #2563eb;
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
 
-        function rewriteImage(node) {
-          if (!node || node.tagName !== "IMG") {
-            return;
-          }
+    .feature-card h3 {
+        margin: 0 0 8px;
+        color: #111827;
+        font-size: 1.15rem;
+    }
 
-          var src = node.getAttribute("src");
-          if (src && src.indexOf("/img/") === 0) {
-            node.setAttribute("src", staticImgPrefix + src.slice(5));
-          }
+    .feature-card p,
+    .feature-card li {
+        color: #4b5563;
+        line-height: 1.7;
+    }
+
+    .feature-card ul {
+        margin: 10px 0 0;
+        padding-left: 18px;
+    }
+
+    .quote-card {
+        margin-top: 24px;
+        padding: 22px;
+        background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%);
+        border-color: #fed7aa;
+    }
+
+    .quote-card p {
+        margin: 0;
+        color: #7c2d12;
+        font-size: 1.02rem;
+        line-height: 1.75;
+    }
+
+    .cta-panel {
+        margin-top: 28px;
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+        border-color: #bfdbfe;
+    }
+
+    .cta-panel h3 {
+        margin: 0 0 6px;
+        color: #111827;
+        font-size: 1.35rem;
+    }
+
+    .cta-panel p {
+        margin: 0;
+        color: #475569;
+        line-height: 1.65;
+    }
+
+    @media (max-width: 960px) {
+        .hero-panel,
+        .feature-grid,
+        .info-strip,
+        .cta-panel {
+            grid-template-columns: 1fr;
         }
 
-        var observer = new MutationObserver(function (mutations) {
-          mutations.forEach(function (mutation) {
-            mutation.addedNodes.forEach(function (added) {
-              if (added.nodeType !== 1) {
-                return;
-              }
+        .cta-panel {
+            display: block;
+        }
 
-              rewriteImage(added);
-              added.querySelectorAll && added.querySelectorAll("img").forEach(rewriteImage);
-            });
-          });
-        });
+        .cta-panel .cta-row {
+            margin-top: 14px;
+        }
+    }
 
-        document.addEventListener("DOMContentLoaded", function () {
-          document.querySelectorAll("img").forEach(rewriteImage);
-          observer.observe(document.body, { childList: true, subtree: true });
-        });
-      })();
-    </script>
-    <script type="module" src="{% static 'anima-home/assets/index.js' %}"></script>
-  </head>
-  <body>
-    <div id="app"></div>
-  </body>
-</html>
+    @media (max-width: 720px) {
+        .home-shell {
+            padding: 16px 12px 48px;
+        }
+
+        .hero-panel {
+            padding: 20px;
+        }
+
+        .hero-points {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="home-shell">
+    <section class="hero-panel">
+        <div>
+            <div class="hero-badge">🏠 AI-powered tenant advocate</div>
+            <h1 class="hero-title">Take control of your renting experience with Bruce.</h1>
+            <p class="hero-copy">
+                Bruce helps renters understand their rights, challenge unfair rent increases,
+                report repair issues, and stay one step ahead of landlord compliance problems.
+            </p>
+
+            <ul class="hero-points">
+                <li>⚖️ Challenge unfair rent reviews with confidence</li>
+                <li>🛠️ Track repairs and escalate unresolved issues</li>
+                <li>🔍 Check deposit, licensing, and safety compliance</li>
+                <li>💬 Get clear help tailored to your tenancy</li>
+            </ul>
+
+            <div class="cta-row">
+                <a href="{% url 'onboarding' %}" class="cta-primary">Try it free</a>
+                <a href="{% url 'rrb' %}" class="cta-secondary">Learn about the Renters' Rights Act</a>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <img src="{% static 'anima-home/img/hero-screen.png' %}" alt="Bruce dashboard preview">
+        </div>
+    </section>
+
+    <section class="info-strip">
+        <div class="info-card">
+            <strong>Fairer rent guidance</strong>
+            <span>See whether a proposed increase looks reasonable before you respond.</span>
+        </div>
+        <div class="info-card">
+            <strong>Maintenance support</strong>
+            <span>Organise evidence, raise issues properly, and keep a clear record of what happened.</span>
+        </div>
+        <div class="info-card">
+            <strong>Compliance checks</strong>
+            <span>Stay informed about deposits, licenses, and safety responsibilities that protect you.</span>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-heading">
+            <h2>Built for the biggest renter changes in a generation</h2>
+            <p>
+                From 1 May 2026, the Renters' Rights Act brings major new protections for private renters in England.
+                Bruce helps turn those protections into practical next steps.
+            </p>
+        </div>
+
+        <div class="feature-grid">
+            <article class="feature-card">
+                <div class="feature-icon">💷</div>
+                <h3>Get a fairer deal on rent</h3>
+                <ul>
+                    <li>Understand whether a rent increase looks fair.</li>
+                    <li>Prepare for a tribunal challenge if needed.</li>
+                    <li>Delay unfair increases while the case is reviewed.</li>
+                </ul>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3>Deal with maintenance issues</h3>
+                <ul>
+                    <li>Notify landlords clearly and professionally.</li>
+                    <li>Track progress and missed repair deadlines.</li>
+                    <li>Escalate serious issues with stronger evidence.</li>
+                </ul>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">✅</div>
+                <h3>Verify compliance</h3>
+                <p>
+                    Check whether key legal protections are in place, including deposit protection,
+                    landlord licensing, and required safety checks.
+                </p>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>Chat with Bruce</h3>
+                <p>
+                    Ask questions about landlord behaviour, notices, rent, or tenancy issues and get practical,
+                    renter-focused guidance in plain language.
+                </p>
+            </article>
+        </div>
+
+        <div class="quote-card">
+            <p>
+                “Most landlord tools are designed to protect profits. Bruce is designed to help tenants understand their rights,
+                make informed choices, and push back when something does not look right.”
+            </p>
+        </div>
+    </section>
+
+    <section class="cta-panel">
+        <div>
+            <h3>Ready to get started?</h3>
+            <p>
+                Create your profile, tell Bruce about your tenancy, and start getting support that is built around renters.
+            </p>
+        </div>
+
+        <div class="cta-row">
+            <a href="{% url 'onboarding' %}" class="cta-primary">Get started</a>
+            <a href="{% url 'login' %}" class="cta-secondary" style="color:#1e3a8a !important; border-color:#bfdbfe; background:#ffffff;">Login</a>
+        </div>
+    </section>
+</div>
+{% endblock %}

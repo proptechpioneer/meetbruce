@@ -22,8 +22,12 @@
     
     <!-- Custom font styles -->
     <style>
+        html, body {
+            overflow-x: hidden;
+        }
+
         /* Anek Latin font - clean, modern typography with fallbacks */
-        body, p, a, span, div, button, .anek-text {
+        body, p, a, span, div, button, li, input, textarea, select, label, .anek-text {
             font-family: 'Anek Latin', 'Inter', Arial, Helvetica, sans-serif;
             font-weight: 400;
             letter-spacing: 0.01em;
@@ -51,19 +55,17 @@
             animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
         }
         
-        /* Navigation specific styling - force visibility */
+        /* Navigation styling */
         nav a, nav button, nav span {
             font-family: 'Anek Latin', 'Inter', Arial, Helvetica, sans-serif !important;
-            font-weight: 500 !important;
-            color: inherit !important;
-            opacity: 1 !important;
-            font-size: inherit !important;
-            display: inline !important;
         }
-        
-        /* Force navigation text visibility with fallback fonts */
-        nav * {
-            font-family: 'Anek Latin', 'Inter', Arial, Helvetica, sans-serif !important;
+
+        .nav-center a,
+        .nav-right a,
+        #mobile-menu a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
         
         /* Debug navigation visibility */
